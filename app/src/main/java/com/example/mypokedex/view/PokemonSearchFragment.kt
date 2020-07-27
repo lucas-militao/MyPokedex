@@ -39,8 +39,8 @@ class PokemonSearchFragment: Fragment() {
     }
 
     private fun subscribeUi() {
-        viewModel.response.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it.results)
+        viewModel.pokemonsList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
         })
     }
 }

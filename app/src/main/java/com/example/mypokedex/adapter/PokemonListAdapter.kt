@@ -5,22 +5,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mypokedex.databinding.ItemPokemonBinding
-import com.example.mypokedex.model.ListObjectResponse
+import com.example.mypokedex.model.Pokemon
 
-class PokemonListAdapter: ListAdapter<ListObjectResponse, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
+class PokemonListAdapter: ListAdapter<Pokemon, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ListObjectResponse>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<Pokemon>() {
         override fun areItemsTheSame(
-            oldItem: ListObjectResponse,
-            newItem: ListObjectResponse
+            oldItem: Pokemon,
+            newItem: Pokemon
         ): Boolean {
             return oldItem === newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: ListObjectResponse,
-            newItem: ListObjectResponse
+            oldItem: Pokemon,
+            newItem: Pokemon
         ): Boolean {
             return oldItem.name == newItem.name
         }
@@ -29,8 +30,12 @@ class PokemonListAdapter: ListAdapter<ListObjectResponse, PokemonListAdapter.Pok
 
     inner class PokemonViewHolder(private var binding: ItemPokemonBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(pokemon: ListObjectResponse) {
+        fun bind(pokemon: Pokemon) {
             binding.pokemonName.text = pokemon.name
+            Glide.with(binding.root)
+                .load(pokemon.sprites.frontDefault)
+                .into(binding.pokemonIcon)
+
         }
     }
 
