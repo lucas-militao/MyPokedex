@@ -1,4 +1,4 @@
-package com.example.mypokedex.view.activity
+package com.example.mypokedex.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -6,14 +6,18 @@ import androidx.lifecycle.ViewModel
 import com.example.mypokedex.model.ListObjectResponse
 import com.example.mypokedex.model.ListResponse
 import com.example.mypokedex.network.PokemonApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class PokemonViewModel: ViewModel() {
 
-    private val _response = MutableLiveData<String>()
-    val response: LiveData<String>
+    private val viewModelJob = Job()
+    private val coroutineScope = CoroutineScope( viewModelJob + Dispatchers.Main )
+
+    private val _response = MutableLiveData<ListResponse<ListObjectResponse>>()
+    val response: LiveData<ListResponse<ListObjectResponse>>
         get() = _response
 
     init {
@@ -21,21 +25,19 @@ class PokemonViewModel: ViewModel() {
     }
 
     private fun listPokemons() {
-        PokemonApi.retrofitService.getList(10, 10).enqueue(
-            object: Callback<ListResponse<ListObjectResponse>> {
-                override fun onFailure(call: Call<ListResponse<ListObjectResponse>>, t: Throwable) {
-                    _response.value = "Failure: " + t.message
-                }
+        coroutineScope.launch {
+            var getPropertiesDeferred = PokemonApi.retrofitService.getList(10, 10)
 
-                override fun onResponse(
-                    call: Call<ListResponse<ListObjectResponse>>,
-                    response: Response<ListResponse<ListObjectResponse>>
-                ) {
-                    _response.value = "There are available: ${response.body()?.count} pokemons"
-                }
-
-
+            try {
+                _response.value = getPropertiesDeferred.await()
+            } catch (e: Exception) {
+                "Failure: ${e.message}"
             }
-        )
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

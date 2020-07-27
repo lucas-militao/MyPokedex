@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/pokemonSearchFragment"
-        android:name="com.example.mypokedex.view.fragment.PokemonSearchFragment"
+        android:name="com.example.mypokedex.view.PokemonSearchFragment"
         android:label="PokemonSearchFragment" />
 </navigation>
