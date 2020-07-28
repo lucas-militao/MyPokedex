@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.mypokedex.model.dto.PokemonDto
 import com.example.mypokedex.repository.PokemonRepository
 import kotlinx.coroutines.CoroutineScope
