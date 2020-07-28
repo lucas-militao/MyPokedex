@@ -1,12 +1,11 @@
 package com.example.mypokedex.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.mypokedex.R
 import com.example.mypokedex.adapter.PokemonListAdapter
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
 import com.example.mypokedex.viewmodel.PokemonViewModel
@@ -43,4 +42,10 @@ class PokemonSearchFragment: Fragment() {
             adapter.submitList(it)
         })
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_bar, menu)
+    }
+
+    
 }

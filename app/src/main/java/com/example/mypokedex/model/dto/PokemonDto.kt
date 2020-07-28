@@ -1,6 +1,8 @@
-package com.example.mypokedex.model
+package com.example.mypokedex.model.dto
 
-data class Pokemon(
+import com.example.mypokedex.model.PokemonSprites
+
+data class PokemonDto(
     val id: Int,
     val name: String,
     val height: Int,

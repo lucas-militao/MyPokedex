@@ -7,21 +7,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mypokedex.databinding.ItemPokemonBinding
-import com.example.mypokedex.model.Pokemon
+import com.example.mypokedex.model.dto.PokemonDto
 
-class PokemonListAdapter: ListAdapter<Pokemon, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
+class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Pokemon>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<PokemonDto>() {
         override fun areItemsTheSame(
-            oldItem: Pokemon,
-            newItem: Pokemon
+            oldItem: PokemonDto,
+            newItem: PokemonDto
         ): Boolean {
             return oldItem === newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: Pokemon,
-            newItem: Pokemon
+            oldItem: PokemonDto,
+            newItem: PokemonDto
         ): Boolean {
             return oldItem.name == newItem.name
         }
@@ -30,7 +30,7 @@ class PokemonListAdapter: ListAdapter<Pokemon, PokemonListAdapter.PokemonViewHol
 
     inner class PokemonViewHolder(private var binding: ItemPokemonBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(pokemon: Pokemon) {
+        fun bind(pokemon: PokemonDto) {
             binding.pokemonName.text = pokemon.name
             Glide.with(binding.root)
                 .load(pokemon.sprites.frontDefault)
