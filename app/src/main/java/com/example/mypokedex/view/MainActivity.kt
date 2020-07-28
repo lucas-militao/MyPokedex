@@ -5,15 +5,15 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import com.example.mypokedex.R
-import com.example.mypokedex.databinding.NavigationActivityBinding
+import com.example.mypokedex.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: NavigationActivityBinding
+    lateinit var binding: MainActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.navigation_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.main_activity)
         setupView()
         subscribeUI()
     }

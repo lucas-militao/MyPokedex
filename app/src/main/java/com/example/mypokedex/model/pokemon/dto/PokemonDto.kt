@@ -1,4 +1,4 @@
-package com.example.mypokedex.model.dto
+package com.example.mypokedex.model.pokemon.dto
 
 import com.example.mypokedex.model.PokemonSprites
 

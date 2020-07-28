@@ -1,4 +1,4 @@
-package com.example.mypokedex.model.entity
+package com.example.mypokedex.model.pokemon.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,6 +10,5 @@ data class PokemonEntity(
     @ColumnInfo(name = "nome") val name: String,
     @ColumnInfo(name = "altura") val height: Int,
     @ColumnInfo(name = "peso") val weight: Int,
-    @ColumnInfo(name = "tipo") val type: String,
     @ColumnInfo(name = "imagem") val sprite: String
 )

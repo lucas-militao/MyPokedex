@@ -1,8 +1,8 @@
 package com.example.mypokedex.util
 
-import com.example.mypokedex.model.dto.PokemonDto
-import com.example.mypokedex.model.entity.PokemonEntity
-import com.example.mypokedex.model.ui.Pokemon
+import com.example.mypokedex.model.pokemon.dto.PokemonDto
+import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.model.pokemon.ui.Pokemon
 
 
 
@@ -23,5 +23,15 @@ fun PokemonEntity.toPokemon(): Pokemon {
         height = this.height,
         weight = this.weight,
         sprite = this.sprite
+    )
+}
+
+fun PokemonDto.toPokemonEntity(): PokemonEntity {
+    return PokemonEntity(
+        id = this.id,
+        name = this.name,
+        height = this.height,
+        weight = this.weight,
+        sprite = this.sprites.frontDefault
     )
 }

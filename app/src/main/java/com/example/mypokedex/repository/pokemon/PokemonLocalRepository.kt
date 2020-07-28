@@ -1,10 +1,9 @@
-package com.example.mypokedex.repository
+package com.example.mypokedex.repository.pokemon
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.mypokedex.database.PokemonDatabase
-import com.example.mypokedex.model.dao.PokemonDao
-import com.example.mypokedex.model.entity.PokemonEntity
+import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 
 class PokemonLocalRepository(context: Context) {
 

@@ -2,9 +2,11 @@ package com.example.mypokedex.view
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mypokedex.R
 import com.example.mypokedex.adapter.PokemonListAdapter
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
@@ -40,6 +42,18 @@ class PokemonSearchFragment: Fragment() {
     private fun subscribeUi() {
         viewModel.pokemonsList.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+        })
+
+        binding.pokemonList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!recyclerView.canScrollVertically(1)) {
+
+                }
+            }
+
         })
     }
 

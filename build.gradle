@@ -15,6 +15,7 @@ buildscript {
         version_lifecycle_extensions = "2.0.0"
         roomVersion = '2.2.5'
         stethoVersion = '1.5.1'
+        workVersion = "2.3.4"
     }
 
     repositories {

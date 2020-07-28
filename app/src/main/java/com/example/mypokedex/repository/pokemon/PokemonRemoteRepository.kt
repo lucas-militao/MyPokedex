@@ -1,8 +1,8 @@
-package com.example.mypokedex.repository
+package com.example.mypokedex.repository.pokemon
 
 import android.util.Log
 import com.example.mypokedex.model.ListObjectResponse
-import com.example.mypokedex.model.dto.PokemonDto
+import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.network.PokemonApiService
 import com.example.mypokedex.network.retrofit
 
@@ -14,6 +14,16 @@ class PokemonRemoteRepository {
 
     suspend fun getPokemons(offset: Int, limit: Int): List<ListObjectResponse>? {
         val getPropertiesDeferred = retrofitService.getList(offset, limit)
+        return try {
+            getPropertiesDeferred.await().results!!
+        } catch (e: Exception) {
+            Log.e("ERRO", "Failure: ${e.message}", e)
+            null
+        }
+    }
+
+    suspend fun getNextList(url: String): List<ListObjectResponse>? {
+        val getPropertiesDeferred = retrofitService.getNextList(url)
         return try {
             getPropertiesDeferred.await().results!!
         } catch (e: Exception) {

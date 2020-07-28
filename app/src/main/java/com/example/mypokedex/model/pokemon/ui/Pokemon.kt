@@ -1,4 +1,4 @@
-package com.example.mypokedex.model.ui
+package com.example.mypokedex.model.pokemon.ui
 
 data class Pokemon(
     val id: Int,

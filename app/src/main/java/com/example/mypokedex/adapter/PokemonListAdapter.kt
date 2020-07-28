@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mypokedex.databinding.ItemPokemonBinding
-import com.example.mypokedex.model.dto.PokemonDto
+import com.example.mypokedex.model.pokemon.dto.PokemonDto
 
 class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
 

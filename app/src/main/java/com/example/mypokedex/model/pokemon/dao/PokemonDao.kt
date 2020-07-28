@@ -1,11 +1,11 @@
-package com.example.mypokedex.model.dao
+package com.example.mypokedex.model.pokemon.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.mypokedex.model.entity.PokemonEntity
+import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 
 @Dao
 interface PokemonDao {

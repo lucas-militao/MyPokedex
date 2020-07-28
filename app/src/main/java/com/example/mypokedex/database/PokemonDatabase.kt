@@ -4,16 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.mypokedex.model.dao.PokemonDao
-import com.example.mypokedex.model.entity.PokemonEntity
+import com.example.mypokedex.model.pokemon.dao.PokemonDao
+import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.model.progress.dao.ProgressDao
+import com.example.mypokedex.model.progress.entity.ProgressEntity
 
 @Database(
-    entities = arrayOf(PokemonEntity::class),
+    entities = arrayOf(
+        PokemonEntity::class,
+        ProgressEntity::class),
     version = 1,
     exportSchema = false)
 abstract class PokemonDatabase: RoomDatabase() {
 
     abstract fun pokemonDao(): PokemonDao
+    abstract fun progressDao(): ProgressDao
 
     companion object {
         @Volatile
