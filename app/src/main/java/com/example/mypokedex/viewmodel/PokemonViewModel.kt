@@ -19,9 +19,6 @@ class PokemonViewModel(
     application: Application
 ): AndroidViewModel(application) {
 
-//    private val repository =
-//        PokemonRepository(application.applicationContext)
-
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope( viewModelJob + Dispatchers.Main )
 
@@ -46,7 +43,6 @@ class PokemonViewModel(
     }
 
     init {
-//        getFirstList()
         requestPokemonList(0, 20)
     }
 
@@ -80,7 +76,7 @@ class PokemonViewModel(
                 pokemons.addAll(_pokemonsList.value!!)
 
                 for (item in result.results!!) {
-                    pokemons!!.add(retrofitService.getPokemonByNameOrId(item.name).await())
+                    pokemons.add(retrofitService.getPokemonByNameOrId(item.name).await())
                 }
 
                 _pokemonsList.value = pokemons
@@ -92,17 +88,19 @@ class PokemonViewModel(
         }
     }
 
-//    fun getFirstList(offset: Int = 0, limit: Int = 20) {
-//        coroutineScope.launch {
-//            _pokemonsList.value = repository.getAll(offset, limit) as ArrayList<PokemonDto>
-//        }
-//    }
-//
-//    fun getNewList() {
-//        coroutineScope.launch {
-//            _pokemonsList.value?.addAll(repository.getNext(_next.value!!) as ArrayList<PokemonDto>)
-//        }
-//    }
+    fun searchPokemon(name: String) {
+        coroutineScope.launch {
+            showProgress()
+            val getDeferred = retrofitService.getPokemonByNameOrId(name)
+            try {
+                val pokemon = getDeferred.await()
+                _pokemonsList.value = arrayListOf(pokemon)
+            } catch (e: Exception) {
+                Log.e("REQUEST PAGE ERROR", "requestNextPage: ${e.message}" )
+            }
+            quitProgress()
+        }
+    }
 
     fun doRequest() {
         _requestNewPage.value = true

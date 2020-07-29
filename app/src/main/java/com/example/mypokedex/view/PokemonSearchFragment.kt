@@ -1,7 +1,13 @@
 package com.example.mypokedex.view
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.*
+import android.widget.SearchView
+import android.widget.SearchView.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,7 +25,7 @@ class PokemonSearchFragment: Fragment() {
     }
     private lateinit var adapter: PokemonListAdapter
 
-    override fun onCreateView(
+    override fun onCreateView (
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +42,7 @@ class PokemonSearchFragment: Fragment() {
         binding.viewModel = viewModel
         adapter = PokemonListAdapter()
         binding.pokemonList.adapter = adapter
+        setHasOptionsMenu(true)
     }
 
     private fun subscribeUi() {
@@ -49,7 +56,8 @@ class PokemonSearchFragment: Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.doRequest()
+                    if (SearchView(view?.context).isShown)
+                        viewModel.doRequest()
                 }
             }
         })
@@ -63,11 +71,37 @@ class PokemonSearchFragment: Fragment() {
         viewModel.showProgress.observe(viewLifecycleOwner, Observer {
             binding.progressBar.visibility = if(it) View.VISIBLE else View.GONE
         })
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_bar, menu)
+        inflater.inflate(R.menu.menu, menu)
+
+        val menuItem = menu.findItem(R.id.searchView)
+        val searchView = menuItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object: OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                if (!p0.isNullOrEmpty()) viewModel.searchPokemon(p0)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+
+        })
+
     }
 
-    
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.searchView -> {
+                TransitionManager.beginDelayedTransition(activity?.findViewById(R.id.toolbar) as ViewGroup)
+                item.expandActionView()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
