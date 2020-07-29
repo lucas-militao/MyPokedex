@@ -1,22 +1,26 @@
 package com.example.mypokedex.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
+import com.example.mypokedex.network.PokemonApiService
+import com.example.mypokedex.network.retrofit
 import com.example.mypokedex.repository.pokemon.PokemonRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class PokemonViewModel(
     application: Application
 ): AndroidViewModel(application) {
 
-    private val repository =
-        PokemonRepository(application.applicationContext)
+//    private val repository =
+//        PokemonRepository(application.applicationContext)
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope( viewModelJob + Dispatchers.Main )
@@ -29,20 +33,91 @@ class PokemonViewModel(
     val next: LiveData<String>
         get() = _next
 
+    private val _requestNewPage = MutableLiveData<Boolean>()
+    val requestNewPage: LiveData<Boolean>
+        get() = _requestNewPage
+
+    private val _showProgress = MutableLiveData<Boolean>()
+    val showProgress: LiveData<Boolean>
+        get() = _showProgress
+
+    private val retrofitService: PokemonApiService by lazy {
+        retrofit.create(PokemonApiService::class.java)
+    }
+
     init {
-        getFirstList()
+//        getFirstList()
+        requestPokemonList(0, 20)
     }
 
-    fun getFirstList(offset: Int = 0, limit: Int = 20) {
+    fun requestPokemonList(offset: Int, limit: Int) {
         coroutineScope.launch {
-            _pokemonsList.value = repository.getAll(offset, limit) as ArrayList<PokemonDto>
+            showProgress()
+            val getDeferred = retrofitService.getList(offset, limit)
+            try {
+                val result = getDeferred.await()
+                val pokemons = ArrayList<PokemonDto>()
+
+                for (item in result.results!!) {
+                    pokemons.add(retrofitService.getPokemonByNameOrId(item.name).await())
+                }
+                _pokemonsList.value = pokemons
+                _next.value = result.next
+            } catch (e: Exception) {
+                Log.e("REQUEST PAGE ERROR", "requestPokemonList: ${e.message}")
+            }
+            quitProgress()
         }
     }
 
-    fun getNewList() {
+    fun requestNextPage(url: String) {
         coroutineScope.launch {
-            _pokemonsList.value?.addAll(repository.getNext(_next.value!!) as ArrayList<PokemonDto>)
+            showProgress()
+            val getDeferred = retrofitService.getNextList(url)
+            try {
+                val result = getDeferred.await()
+                val pokemons = ArrayList<PokemonDto>()
+                pokemons.addAll(_pokemonsList.value!!)
+
+                for (item in result.results!!) {
+                    pokemons!!.add(retrofitService.getPokemonByNameOrId(item.name).await())
+                }
+
+                _pokemonsList.value = pokemons
+                _next.value = result.next
+            } catch (e: Exception) {
+                Log.e("REQUEST PAGE ERROR", "requestNextPage: ${e.message}" )
+            }
+            quitProgress()
         }
+    }
+
+//    fun getFirstList(offset: Int = 0, limit: Int = 20) {
+//        coroutineScope.launch {
+//            _pokemonsList.value = repository.getAll(offset, limit) as ArrayList<PokemonDto>
+//        }
+//    }
+//
+//    fun getNewList() {
+//        coroutineScope.launch {
+//            _pokemonsList.value?.addAll(repository.getNext(_next.value!!) as ArrayList<PokemonDto>)
+//        }
+//    }
+
+    fun doRequest() {
+        _requestNewPage.value = true
+    }
+
+    fun pageRequested() {
+        _requestNewPage.value = false
+    }
+
+    fun showProgress() {
+        _showProgress.value = true
+    }
+
+    fun quitProgress() {
+        _showProgress.value = false
     }
 
     override fun onCleared() {

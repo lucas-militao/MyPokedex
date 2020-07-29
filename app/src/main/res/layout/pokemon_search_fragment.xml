@@ -15,24 +15,26 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:visibility="gone"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            style="?android:progressBarStyleHorizontal"
-            android:progressDrawable="@drawable/circular_progress"
+            android:layout_marginBottom="8dp"
+            android:max="100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:max="100"/>
+            app:layout_constraintTop_toBottomOf="@+id/pokemonList" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pokemonList"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/progressBar"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:spanCount="3" />
