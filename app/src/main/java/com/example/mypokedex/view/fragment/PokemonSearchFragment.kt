@@ -1,4 +1,4 @@
-package com.example.mypokedex.view
+package com.example.mypokedex.view.fragment
 
 import android.os.Bundle
 import android.transition.TransitionManager
@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mypokedex.R
-import com.example.mypokedex.adapter.PokemonListAdapter
+import com.example.mypokedex.view.adapter.PokemonListAdapter
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
 import com.example.mypokedex.viewmodel.PokemonViewModel
 
