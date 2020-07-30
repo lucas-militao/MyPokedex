@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.*
 import android.widget.SearchView
-import android.widget.SearchView.*
-import android.widget.Toast
+import android.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -47,6 +46,7 @@ class PokemonSearchFragment: Fragment() {
         viewModel.pokemonsList.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
             binding.pokemonList.visibility = View.VISIBLE
+            viewModel.pageRequested()
         })
 
         binding.pokemonList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -62,7 +62,6 @@ class PokemonSearchFragment: Fragment() {
         viewModel.requestNewPage.observe(viewLifecycleOwner, Observer {
             if (it == true && viewModel.searchViewOpen.value == false) {
                 viewModel.requestPokemonList()
-                viewModel.pageRequested()
             }
         })
 

@@ -46,6 +46,7 @@ class PokemonViewModel(
 
     init {
         requestPokemonList()
+        _searchViewOpen.value = false
     }
 
     fun requestPokemonList() {

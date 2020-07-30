@@ -32,6 +32,14 @@ class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonView
         : RecyclerView.ViewHolder(binding.root){
         fun bind(pokemon: PokemonDto) {
             binding.pokemonName.text = pokemon.name
+            binding.pokemonType.text = ""
+            for (type in pokemon.types) {
+                if (binding.pokemonType.text.isNullOrEmpty())
+                    binding.pokemonType.text = type.type.name
+                else
+                    binding.pokemonType.text = "${binding.pokemonType.text} ${type.type.name}"
+            }
+
             Glide.with(binding.root)
                 .load(pokemon.sprites.frontDefault)
                 .into(binding.pokemonIcon)
