@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupView() {
 
         val host: NavHostFragment = supportFragmentManager
-            .findFragmentById(R.id.navHostFragment) as NavHostFragment ?: return
+            .findFragmentById(R.id.navHostFragment) as NavHostFragment
 
         val navController = host.navController
 

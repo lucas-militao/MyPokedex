@@ -35,7 +35,6 @@ class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonView
             Glide.with(binding.root)
                 .load(pokemon.sprites.frontDefault)
                 .into(binding.pokemonIcon)
-
         }
     }
 
@@ -44,7 +43,7 @@ class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonView
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        var pokemon = getItem(position)
+        val pokemon = getItem(position)
         holder.bind(pokemon)
     }
 }

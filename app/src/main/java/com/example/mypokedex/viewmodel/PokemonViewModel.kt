@@ -8,12 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.network.PokemonApiService
 import com.example.mypokedex.network.retrofit
-import com.example.mypokedex.repository.pokemon.PokemonRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class PokemonViewModel(
     application: Application
@@ -38,21 +36,34 @@ class PokemonViewModel(
     val showProgress: LiveData<Boolean>
         get() = _showProgress
 
+    private val _searchViewOpen = MutableLiveData<Boolean>()
+    val searchViewOpen: LiveData<Boolean>
+        get() = _searchViewOpen
+
     private val retrofitService: PokemonApiService by lazy {
         retrofit.create(PokemonApiService::class.java)
     }
 
     init {
-        requestPokemonList(0, 20)
+        requestPokemonList()
     }
 
-    fun requestPokemonList(offset: Int, limit: Int) {
+    fun requestPokemonList() {
         coroutineScope.launch {
             showProgress()
-            val getDeferred = retrofitService.getList(offset, limit)
+            val requestResult = (
+                if (_next.value == null) {
+                    _pokemonsList.value = null
+                    retrofitService.getList(0, 20)
+                } else {
+                    retrofitService.getNextList(_next.value!!)
+                }
+            )
+
             try {
-                val result = getDeferred.await()
+                val result = requestResult.await()
                 val pokemons = ArrayList<PokemonDto>()
+                if (_pokemonsList.value != null) pokemons.addAll(_pokemonsList.value!!)
 
                 for (item in result.results!!) {
                     pokemons.add(retrofitService.getPokemonByNameOrId(item.name).await())
@@ -62,29 +73,7 @@ class PokemonViewModel(
             } catch (e: Exception) {
                 Log.e("REQUEST PAGE ERROR", "requestPokemonList: ${e.message}")
             }
-            quitProgress()
-        }
-    }
-
-    fun requestNextPage(url: String) {
-        coroutineScope.launch {
-            showProgress()
-            val getDeferred = retrofitService.getNextList(url)
-            try {
-                val result = getDeferred.await()
-                val pokemons = ArrayList<PokemonDto>()
-                pokemons.addAll(_pokemonsList.value!!)
-
-                for (item in result.results!!) {
-                    pokemons.add(retrofitService.getPokemonByNameOrId(item.name).await())
-                }
-
-                _pokemonsList.value = pokemons
-                _next.value = result.next
-            } catch (e: Exception) {
-                Log.e("REQUEST PAGE ERROR", "requestNextPage: ${e.message}" )
-            }
-            quitProgress()
+            closeProgress()
         }
     }
 
@@ -98,11 +87,11 @@ class PokemonViewModel(
             } catch (e: Exception) {
                 Log.e("REQUEST PAGE ERROR", "requestNextPage: ${e.message}" )
             }
-            quitProgress()
+            closeProgress()
         }
     }
 
-    fun doRequest() {
+    fun requestPage() {
         _requestNewPage.value = true
     }
 
@@ -114,8 +103,17 @@ class PokemonViewModel(
         _showProgress.value = true
     }
 
-    fun quitProgress() {
+    fun closeProgress() {
         _showProgress.value = false
+    }
+
+    fun searchViewEnabled() {
+        _searchViewOpen.value = true
+    }
+
+    fun searchViewClosed() {
+        _next.value = null
+        _searchViewOpen.value = false
     }
 
     override fun onCleared() {
