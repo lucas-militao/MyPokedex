@@ -41,6 +41,8 @@ class PokemonSearchFragment: Fragment() {
         binding.viewModel = viewModel
         adapter = PokemonListAdapter()
         binding.pokemonList.adapter = adapter
+        binding.pokemonList.isNestedScrollingEnabled = false
+        binding.pokemonList.setHasFixedSize(false)
         setHasOptionsMenu(true)
     }
 
