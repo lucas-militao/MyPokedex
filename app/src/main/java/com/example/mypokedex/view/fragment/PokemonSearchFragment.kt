@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mypokedex.R
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
+import com.example.mypokedex.model.type.Type
 import com.example.mypokedex.viewmodel.PokemonViewModel
+import com.google.android.material.chip.Chip
 
 class PokemonSearchFragment: Fragment() {
 
@@ -68,6 +70,26 @@ class PokemonSearchFragment: Fragment() {
         viewModel.showProgress.observe(viewLifecycleOwner, Observer {
             binding.progressBar.visibility = if(it) View.VISIBLE else View.GONE
         })
+
+        viewModel.pokemonTypes.observe(viewLifecycleOwner, object: Observer<ArrayList<Type>> {
+            override fun onChanged(data: ArrayList<Type>?) {
+                data ?: return
+                val chipGroup = binding.pokemonTypeFilter
+                val inflator = LayoutInflater.from(chipGroup.context)
+                val children = data.map { type ->
+                    val chip = inflator.inflate(R.layout.type, chipGroup, false) as Chip
+                    chip.text = type.name
+                    chip.tag = type.name
+                    chip
+                }
+                chipGroup.removeAllViews()
+
+                for (chip in children) {
+                    chipGroup.addView(chip)
+                }
+            }
+
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -78,7 +100,10 @@ class PokemonSearchFragment: Fragment() {
 
         searchView.setOnQueryTextListener(object: OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if (!p0.isNullOrEmpty()) viewModel.searchPokemon(p0)
+                if (!p0.isNullOrEmpty()) {
+                    viewModel.searchPokemon(p0)
+                    binding.pokemonList.visibility = View.GONE
+                }
                 return false
             }
 

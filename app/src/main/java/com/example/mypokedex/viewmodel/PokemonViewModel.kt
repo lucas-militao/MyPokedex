@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
+import com.example.mypokedex.model.type.Type
 import com.example.mypokedex.network.PokemonApiService
 import com.example.mypokedex.network.retrofit
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +24,10 @@ class PokemonViewModel(
     private val _pokemonsList = MutableLiveData<ArrayList<PokemonDto>>()
     val pokemonsList: LiveData<ArrayList<PokemonDto>>
         get() = _pokemonsList
+
+    private val _pokemonTypes = MutableLiveData<ArrayList<Type>>()
+    val pokemonTypes: LiveData<ArrayList<Type>>
+        get() = _pokemonTypes
 
     private val _next = MutableLiveData<String>()
     val next: LiveData<String>
@@ -46,6 +51,7 @@ class PokemonViewModel(
 
     init {
         requestPokemonList()
+        getPokemonTypes()
         _searchViewOpen.value = false
     }
 
@@ -86,9 +92,21 @@ class PokemonViewModel(
                 val pokemon = getDeferred.await()
                 _pokemonsList.value = arrayListOf(pokemon)
             } catch (e: Exception) {
-                Log.e("REQUEST PAGE ERROR", "requestNextPage: ${e.message}" )
+                Log.e("REQUEST PAGE ERROR", "ERROR: ${e.message}" )
             }
             closeProgress()
+        }
+    }
+
+    fun getPokemonTypes() {
+        coroutineScope.launch {
+            val getDeferred = retrofitService.getPokemonTypes()
+
+            try {
+                _pokemonTypes.value = getDeferred.await().results as ArrayList<Type>
+            } catch (e: Exception) {
+                Log.e("RESQUEST TYPES ERROR", "ERROR ${e.message}")
+            }
         }
     }
 

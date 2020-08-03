@@ -1,7 +1,7 @@
 package com.example.mypokedex.repository.pokemon
 
 import android.util.Log
-import com.example.mypokedex.model.ListObjectResponse
+import com.example.mypokedex.model.response.ListObjectResponse
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.network.PokemonApiService
 import com.example.mypokedex.network.retrofit

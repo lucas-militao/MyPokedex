@@ -1,4 +1,4 @@
-package com.example.mypokedex.model
+package com.example.mypokedex.model.response
 
 data class ListObjectResponse(
     val name: String,
