@@ -1,7 +1,6 @@
 package com.example.mypokedex.model.pokemon.dto
 
 import com.example.mypokedex.model.sprites.Sprites
-import com.example.mypokedex.model.type.Type
 import com.example.mypokedex.model.type.Types
 
 data class PokemonDto(

@@ -1,9 +1,11 @@
 package com.example.mypokedex.network
 
+import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.model.response.ListObjectResponse
 import com.example.mypokedex.model.response.ListResponse
-import com.example.mypokedex.model.pokemon.dto.PokemonDto
+import com.example.mypokedex.model.type.PokemonTypeResponse
 import com.example.mypokedex.model.type.Type
+import com.example.mypokedex.model.type.TypeResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,11 +19,20 @@ interface PokemonApiService {
         @Query("limit") limit: Int): Deferred<ListResponse<ListObjectResponse>>
 
     @GET
-    fun getNextList(@Url url: String): Deferred<ListResponse<ListObjectResponse>>
+    fun getNextList(
+        @Url url: String
+    ): Deferred<ListResponse<ListObjectResponse>>
 
     @GET(Paths.Pokemon + "{param}/")
-    fun getPokemonByNameOrId(@Path("param") param: String): Deferred<PokemonDto>
+    fun getPokemonByNameOrId(
+        @Path("param") param: String
+    ): Deferred<PokemonDto>
 
     @GET(Paths.PokemonTypes)
     fun getPokemonTypes(): Deferred<ListResponse<Type>>
+
+    @GET(Paths.PokemonTypes + "{param}/")
+    fun searchPokemonsByTypeId(
+        @Path("param") param: String
+    ): Deferred<TypeResponse<PokemonTypeResponse>>
 }

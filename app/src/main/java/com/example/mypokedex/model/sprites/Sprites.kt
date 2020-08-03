@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 data class Sprites(
     @Json(name = "front_default")
-    val frontDefault: String,
+    val frontDefault: String?,
     @Json(name = "back_default")
-    val backDefault: String
+    val backDefault: String?
 )

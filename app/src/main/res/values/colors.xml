@@ -1,5 +1,6 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
+  <!--Theme colors-->
   <color name="primaryColor">#f6bd20</color>
   <color name="primaryLightColor">#ffef5a</color>
   <color name="primaryDarkColor">#bf8d00</color>
@@ -8,6 +9,7 @@
   <color name="secondaryDarkColor">#692800</color>
   <color name="primaryTextColor">#292929</color>
   <color name="secondaryTextColor">#fff</color>
+  <!--Pokemon types-->
   <color name="type_normal">#A8A878</color>
   <color name="type_fire">#F08030</color>
   <color name="type_water">#6890F0</color>

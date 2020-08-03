@@ -82,6 +82,11 @@ class PokemonSearchFragment: Fragment() {
                     val chip = inflator.inflate(R.layout.type, chipGroup, false) as Chip
                     chip.text = type.name
                     chip.tag = type.name
+                    
+                    chip.setOnCheckedChangeListener { button, isChecked ->
+                        if (isChecked) viewModel.applyTypeFilter(button.id)
+                    }
+                    
                     chip
                 }
                 chipGroup.removeAllViews()

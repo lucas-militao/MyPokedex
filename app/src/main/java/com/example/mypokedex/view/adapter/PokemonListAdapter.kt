@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.mypokedex.R
 import com.example.mypokedex.databinding.ItemPokemonBinding
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
@@ -75,8 +76,12 @@ class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonView
                 }
             }
 
+            val requestOptions = RequestOptions()
+                .error(R.drawable.pokeball_error)
+
             Glide.with(binding.root)
                 .load(pokemon.sprites.frontDefault)
+                .apply(requestOptions)
                 .into(binding.pokemonIcon)
         }
     }

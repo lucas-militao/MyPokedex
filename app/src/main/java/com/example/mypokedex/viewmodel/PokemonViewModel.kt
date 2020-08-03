@@ -110,6 +110,26 @@ class PokemonViewModel(
         }
     }
 
+    fun applyTypeFilter(id: Int) {
+        coroutineScope.launch {
+            showProgress()
+            val getDeferred = retrofitService.searchPokemonsByTypeId("15")
+
+            try {
+                val pokemons = getDeferred.await()
+                val result = arrayListOf<PokemonDto>()
+                for (pokemonResult in pokemons.pokemon) {
+                    val pokemon = retrofitService.getPokemonByNameOrId(pokemonResult.pokemon.name)
+                    result.add(pokemon.await())
+                }
+                _pokemonsList.value = result
+            } catch (e: Exception) {
+                Log.e("RESQUEST FILTER ERROR", "ERROR ${e.message}")
+            }
+            closeProgress()
+        }
+    }
+
     fun requestPage() {
         _requestNewPage.value = true
     }
