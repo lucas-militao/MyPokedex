@@ -45,6 +45,10 @@ class PokemonViewModel(
     val searchViewOpen: LiveData<Boolean>
         get() = _searchViewOpen
 
+    private val _filterOn = MutableLiveData<Boolean>()
+    val filterOn: LiveData<Boolean>
+        get() = _filterOn
+
     private val retrofitService: PokemonApiService by lazy {
         retrofit.create(PokemonApiService::class.java)
     }
@@ -53,6 +57,7 @@ class PokemonViewModel(
         requestPokemonList()
         getPokemonTypes()
         _searchViewOpen.value = false
+        _filterOn.value = false
     }
 
     fun requestPokemonList() {
@@ -110,10 +115,10 @@ class PokemonViewModel(
         }
     }
 
-    fun applyTypeFilter(id: Int) {
+    fun applyTypeFilter(type: String) {
         coroutineScope.launch {
             showProgress()
-            val getDeferred = retrofitService.searchPokemonsByTypeId("15")
+            val getDeferred = retrofitService.searchPokemonsByTypeId(type)
 
             try {
                 val pokemons = getDeferred.await()
@@ -122,6 +127,8 @@ class PokemonViewModel(
                     val pokemon = retrofitService.getPokemonByNameOrId(pokemonResult.pokemon.name)
                     result.add(pokemon.await())
                 }
+                _pokemonsList.value = arrayListOf()
+                _next.value = null
                 _pokemonsList.value = result
             } catch (e: Exception) {
                 Log.e("RESQUEST FILTER ERROR", "ERROR ${e.message}")
@@ -153,6 +160,16 @@ class PokemonViewModel(
     fun searchViewClosed() {
         _next.value = null
         _searchViewOpen.value = false
+    }
+
+    fun filtering() {
+        _filterOn.value = true
+    }
+
+    fun filterOff() {
+        _filterOn.value = false
+        _pokemonsList.value = arrayListOf()
+        requestPage()
     }
 
     override fun onCleared() {
