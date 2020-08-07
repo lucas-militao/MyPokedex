@@ -5,4 +5,6 @@
     <string name="developed_by">Developed by Lucas Militão de Araújo Costa</string>
     <string name="why_develop">This is just a simple app using Kotlin and the PokemonApi for personal studies</string>
     <string name="pokemon_types">%s %s</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
 </resources>

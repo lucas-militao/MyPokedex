@@ -13,53 +13,71 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/pokemonImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/pikachu_img" />
 
         <TextView
-            android:id="@+id/pokemonName"
+            android:id="@+id/heightLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/pokemonType"
-            app:layout_constraintStart_toEndOf="@+id/pokemonImage"
-            app:layout_constraintTop_toTopOf="@+id/pokemonImage"
-            tools:text="Pikachu" />
+            android:layout_marginTop="16dp"
+            android:text="@string/height"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_label_size"
+            app:layout_constraintEnd_toStartOf="@+id/wightLbl"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pokemonType" />
+
+        <TextView
+            android:id="@+id/wightLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/weight"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_label_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/heightLbl"
+            app:layout_constraintTop_toBottomOf="@+id/pokemonType" />
 
         <TextView
             android:id="@+id/pokemonType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/pokemonHeight"
-            app:layout_constraintStart_toEndOf="@+id/pokemonImage"
-            app:layout_constraintTop_toBottomOf="@+id/pokemonName"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pokemonImage"
             tools:text="Electric" />
 
         <TextView
             android:id="@+id/pokemonHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/pokemonWeight"
-            app:layout_constraintStart_toEndOf="@+id/pokemonImage"
-            app:layout_constraintTop_toBottomOf="@+id/pokemonType"
-            tools:text="0,80" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/wightLbl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/heightLbl"
+            tools:text="100" />
 
         <TextView
             android:id="@+id/pokemonWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/pokemonImage"
-            app:layout_constraintStart_toEndOf="@+id/pokemonImage"
-            app:layout_constraintTop_toBottomOf="@+id/pokemonHeight"
-            tools:text="30kg" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/heightLbl"
+            app:layout_constraintTop_toBottomOf="@+id/wightLbl"
+            tools:text="100" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

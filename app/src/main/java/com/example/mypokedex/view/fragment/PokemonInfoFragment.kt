@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.mypokedex.R
 import com.example.mypokedex.databinding.PokemonInfoFragmentBinding
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
-import com.example.mypokedex.viewmodel.PokemonViewModel
 
 class PokemonInfoFragment: Fragment() {
 
@@ -34,11 +31,12 @@ class PokemonInfoFragment: Fragment() {
     }
 
     private fun setupView(pokemonDto: PokemonDto) {
+        setToolbarTitle(pokemonDto.name)
+
         Glide.with(this)
             .load(pokemonDto.sprites.frontDefault)
             .into(binding.pokemonImage)
 
-        binding.pokemonName.text = pokemonDto.name
         binding.pokemonHeight.text = pokemonDto.height.toString()
         binding.pokemonWeight.text = pokemonDto.weight.toString()
 
@@ -55,5 +53,11 @@ class PokemonInfoFragment: Fragment() {
 
     private fun subscribeUi() {
 
+    }
+
+    private fun setToolbarTitle(pokemonName: String) {
+        with((activity as AppCompatActivity).supportActionBar) {
+            this?.setTitle(pokemonName)
+        }
     }
 }

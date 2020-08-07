@@ -36,7 +36,7 @@ class PokemonListAdapter(var onClick: (PokemonDto) -> Unit): ListAdapter<Pokemon
     inner class PokemonViewHolder(private var binding: ItemPokemonBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun bind(pokemon: PokemonDto, onClick: (PokemonDto) -> Unit) {
-            binding.pokemonName.text = pokemon.name
+            binding.pokemonName.text = pokemon.name.capitalize()
             binding.typeContainer.removeAllViews()
             binding.itemPokemonContainer.setOnClickListener { onClick(pokemon) }
 
@@ -44,7 +44,7 @@ class PokemonListAdapter(var onClick: (PokemonDto) -> Unit): ListAdapter<Pokemon
                 val newType = TextView(binding.typeContainer.context)
 
                 with(newType) {
-                    this.text = type.type.name
+                    this.text = type.type.name.toUpperCase()
                     this.setPadding(8,8,8,8)
 
                     val colorResource = when(type.type.name) {
