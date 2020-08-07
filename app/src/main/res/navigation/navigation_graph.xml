@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation_graph"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
     app:startDestination="@id/pokemonSearchFragment">
 
     <fragment
@@ -11,10 +13,12 @@
             android:id="@+id/action_pokemonSearchFragment_to_pokemonInfoFragment"
             app:destination="@id/pokemonInfoFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.mypokedex.view.fragment.AboutFragment"
         android:label="about" />
+
     <fragment
         android:id="@+id/pokemonInfoFragment"
         android:name="com.example.mypokedex.view.fragment.PokemonInfoFragment"

@@ -180,6 +180,10 @@ class PokemonViewModel(
         _pokemonInfo.value = pokemonDto
     }
 
+    fun pokemonInfoDelivered() {
+        _pokemonInfo.value = null
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

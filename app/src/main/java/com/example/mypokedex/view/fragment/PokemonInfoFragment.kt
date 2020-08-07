@@ -46,8 +46,8 @@ class PokemonInfoFragment: Fragment() {
             if (binding.pokemonType.text.isNullOrEmpty())
                 binding.pokemonType.text = type.type.name
             else {
-                with(binding.pokemonType.text) {
-                    "$this ${type.type.name}"
+                with(binding.pokemonType) {
+                    this.text = resources.getString(R.string.pokemon_types, this.text, type.type.name)
                 }
             }
         }

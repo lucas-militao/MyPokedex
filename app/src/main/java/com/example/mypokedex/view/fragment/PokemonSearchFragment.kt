@@ -110,6 +110,7 @@ class PokemonSearchFragment: Fragment() {
             if (it != null) {
                 this.findNavController().navigate(PokemonSearchFragmentDirections
                     .actionPokemonSearchFragmentToPokemonInfoFragment(it))
+                viewModel.pokemonInfoDelivered()
             }
         })
 
