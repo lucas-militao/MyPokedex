@@ -21,6 +21,10 @@ class PokemonViewModel(
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope( viewModelJob + Dispatchers.Main )
 
+    private val _pokemonInfo = MutableLiveData<PokemonDto>()
+    val pokemonInfo: LiveData<PokemonDto>
+        get() = _pokemonInfo
+
     private val _pokemonsList = MutableLiveData<ArrayList<PokemonDto>>()
     val pokemonsList: LiveData<ArrayList<PokemonDto>>
         get() = _pokemonsList
@@ -170,6 +174,10 @@ class PokemonViewModel(
         _filterOn.value = false
         _pokemonsList.value = arrayListOf()
         requestPage()
+    }
+
+    fun getPokemonInfo(pokemonDto: PokemonDto) {
+        _pokemonInfo.value = pokemonDto
     }
 
     override fun onCleared() {

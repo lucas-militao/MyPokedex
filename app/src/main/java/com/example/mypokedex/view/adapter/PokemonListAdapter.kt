@@ -2,11 +2,9 @@ package com.example.mypokedex.view.adapter
 
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.marginRight
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +14,7 @@ import com.example.mypokedex.R
 import com.example.mypokedex.databinding.ItemPokemonBinding
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 
-class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
+class PokemonListAdapter(var onClick: (PokemonDto) -> Unit): ListAdapter<PokemonDto, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<PokemonDto>() {
         override fun areItemsTheSame(
@@ -36,10 +34,11 @@ class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonView
     }
 
     inner class PokemonViewHolder(private var binding: ItemPokemonBinding)
-        : RecyclerView.ViewHolder(binding.root){
-        fun bind(pokemon: PokemonDto) {
+        : RecyclerView.ViewHolder(binding.root) {
+        fun bind(pokemon: PokemonDto, onClick: (PokemonDto) -> Unit) {
             binding.pokemonName.text = pokemon.name
             binding.typeContainer.removeAllViews()
+            binding.itemPokemonContainer.setOnClickListener { onClick(pokemon) }
 
             for (type in pokemon.types) {
                 val newType = TextView(binding.typeContainer.context)
@@ -92,6 +91,6 @@ class PokemonListAdapter: ListAdapter<PokemonDto, PokemonListAdapter.PokemonView
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val pokemon = getItem(position)
-        holder.bind(pokemon)
+        holder.bind(pokemon, onClick)
     }
 }

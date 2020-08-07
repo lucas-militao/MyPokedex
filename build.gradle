@@ -16,6 +16,7 @@ buildscript {
         roomVersion = '2.2.5'
         stethoVersion = '1.5.1'
         workVersion = "2.3.4"
+        version_navigation = "1.0.0"
     }
 
     repositories {
@@ -25,6 +26,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

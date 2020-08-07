@@ -2,25 +2,22 @@ package com.example.mypokedex.view.fragment
 
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import android.widget.SearchView.OnQueryTextListener
-import android.widget.Toast
-import androidx.core.view.get
-import androidx.core.view.iterator
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.mypokedex.R
-import com.example.mypokedex.view.adapter.PokemonListAdapter
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
 import com.example.mypokedex.model.type.Type
+import com.example.mypokedex.view.adapter.PokemonListAdapter
 import com.example.mypokedex.viewmodel.PokemonViewModel
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.pokemon_search_fragment.view.*
 
 class PokemonSearchFragment: Fragment() {
 
@@ -109,6 +106,13 @@ class PokemonSearchFragment: Fragment() {
             //TODO: Buscar forma de desativar filtro quando barra de pesquisa está aberta
         })
 
+        viewModel.pokemonInfo.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                this.findNavController().navigate(PokemonSearchFragmentDirections
+                    .actionPokemonSearchFragmentToPokemonInfoFragment(it))
+            }
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -144,7 +148,9 @@ class PokemonSearchFragment: Fragment() {
 
     private fun setupRecyclerView() {
 
-        adapter = PokemonListAdapter()
+        adapter = PokemonListAdapter(onClick = {
+            viewModel.getPokemonInfo(it)
+        })
 
         with(binding.pokemonList) {
             this.adapter = this@PokemonSearchFragment.adapter
@@ -171,6 +177,8 @@ class PokemonSearchFragment: Fragment() {
                 item.expandActionView()
             }
         }
-        return super.onOptionsItemSelected(item)
+
+        return NavigationUI.onNavDestinationSelected(item, view!!.findNavController())
+                || super.onOptionsItemSelected(item)
     }
 }
