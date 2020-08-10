@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="pokemon"
+            type="com.example.mypokedex.model.pokemon.dto.PokemonDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +22,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/pikachu_img" />
+            tools:srcCompat="@drawable/pikachu_img"
+            app:pokemonImage="@{pokemon.sprites.frontDefault}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/pokemonName"
@@ -29,12 +32,13 @@
             android:fontFamily="sans-serif"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="16dp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pokemonIcon"
-            tools:text="Pikachu" />
+            tools:text="Pikachu"
+            app:pokemonName="@{pokemon.name}"/>
 
         <LinearLayout
             android:id="@+id/typeContainer"
@@ -46,7 +50,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pokemonName" />
+            app:layout_constraintTop_toBottomOf="@+id/pokemonName"
+            app:pokemonType="@{pokemon.types}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
