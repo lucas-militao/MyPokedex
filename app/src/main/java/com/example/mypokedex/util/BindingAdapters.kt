@@ -71,3 +71,14 @@ fun pokemonImage(imageView: ImageView, url: String) {
         .apply(requestOptions)
         .into(imageView)
 }
+
+@BindingAdapter("pokemonHeight")
+fun pokemonHeight(textView: TextView, height: Int) {
+    textView.text = textView.context.resources.getString(R.string.pokemon_height, height * 10)
+}
+
+@BindingAdapter("pokemonWeight")
+fun pokemonWeight(textView: TextView, weight: Int) {
+    textView.text = textView.context.resources.getString(R.string.pokemon_weight, weight.toFloat() * 0.1)
+}
+

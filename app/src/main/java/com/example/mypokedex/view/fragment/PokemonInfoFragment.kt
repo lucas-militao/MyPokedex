@@ -32,23 +32,8 @@ class PokemonInfoFragment: Fragment() {
 
     private fun setupView(pokemonDto: PokemonDto) {
         setToolbarTitle(pokemonDto.name)
-
-        Glide.with(this)
-            .load(pokemonDto.sprites.frontDefault)
-            .into(binding.pokemonImage)
-
-        binding.pokemonHeight.text = resources.getString(R.string.pokemon_height, pokemonDto.height * 10)
-        binding.pokemonWeight.text = resources.getString(R.string.pokemon_weight, pokemonDto.weight.toFloat() * 0.1)
-
-        for (type in pokemonDto.types) {
-            if (binding.pokemonType.text.isNullOrEmpty())
-                binding.pokemonType.text = type.type.name
-            else {
-                with(binding.pokemonType) {
-                    this.text = resources.getString(R.string.pokemon_types, this.text, type.type.name)
-                }
-            }
-        }
+        binding.pokemon = pokemonDto
+        binding.executePendingBindings()
     }
 
     private fun subscribeUi() {

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="pokemon"
+            type="com.example.mypokedex.model.pokemon.dto.PokemonDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +23,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/pikachu_img" />
+            tools:src="@drawable/pikachu_img"
+            app:pokemonImage="@{pokemon.sprites.frontDefault}"/>
 
         <TextView
             android:id="@+id/heightLbl"
@@ -34,7 +37,7 @@
             app:layout_constraintEnd_toStartOf="@+id/wightLbl"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pokemonType" />
+            app:layout_constraintTop_toBottomOf="@+id/typeContainer" />
 
         <TextView
             android:id="@+id/wightLbl"
@@ -47,17 +50,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/heightLbl"
-            app:layout_constraintTop_toBottomOf="@+id/pokemonType" />
+            app:layout_constraintTop_toBottomOf="@+id/typeContainer" />
 
-        <TextView
-            android:id="@+id/pokemonType"
+        <LinearLayout
+            android:id="@+id/typeContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pokemonImage"
-            tools:text="Electric" />
+            android:orientation="horizontal"
+            app:pokemonType="@{pokemon.types}"/>
 
         <TextView
             android:id="@+id/pokemonHeight"
@@ -67,7 +71,8 @@
             app:layout_constraintEnd_toStartOf="@+id/wightLbl"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/heightLbl"
-            tools:text="100" />
+            tools:text="100"
+            app:pokemonHeight="@{pokemon.height}"/>
 
         <TextView
             android:id="@+id/pokemonWeight"
@@ -77,7 +82,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/heightLbl"
             app:layout_constraintTop_toBottomOf="@+id/wightLbl"
-            tools:text="100" />
+            tools:text="100"
+            app:pokemonWeight="@{pokemon.weight}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
