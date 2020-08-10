@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.example.mypokedex.R
 import com.example.mypokedex.databinding.PokemonInfoFragmentBinding
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 

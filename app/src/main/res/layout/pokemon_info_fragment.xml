@@ -61,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pokemonImage"
             android:orientation="horizontal"
-            app:pokemonType="@{pokemon.types}"/>
+            app:pokemonType="@{pokemon.types}" />
 
         <TextView
             android:id="@+id/pokemonHeight"

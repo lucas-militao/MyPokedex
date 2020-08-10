@@ -49,6 +49,7 @@ fun pokemonType(container: LinearLayout, types: List<Types>) {
             lp.marginEnd = 2
 
             this.layoutParams = lp
+            this.isSingleLine = true
         }
 
         container.addView(textView)
