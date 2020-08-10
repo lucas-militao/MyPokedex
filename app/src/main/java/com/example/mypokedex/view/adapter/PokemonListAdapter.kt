@@ -1,5 +1,6 @@
 package com.example.mypokedex.view.adapter
 
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -45,6 +46,7 @@ class PokemonListAdapter(var onClick: (PokemonDto) -> Unit): ListAdapter<Pokemon
 
                 with(newType) {
                     this.text = type.type.name.toUpperCase()
+                    this.setTypeface(null, Typeface.BOLD)
                     this.setPadding(8,8,8,8)
 
                     val colorResource = when(type.type.name) {

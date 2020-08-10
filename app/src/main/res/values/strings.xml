@@ -7,4 +7,6 @@
     <string name="pokemon_types">%s %s</string>
     <string name="height">Height</string>
     <string name="weight">Weight</string>
+    <string name="pokemon_height">%d cm</string>
+    <string name="pokemon_weight">%.2f kg</string>
 </resources>
