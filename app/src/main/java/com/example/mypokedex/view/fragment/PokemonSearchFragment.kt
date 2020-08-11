@@ -22,9 +22,7 @@ import com.google.android.material.chip.Chip
 class PokemonSearchFragment: Fragment() {
 
     private lateinit var binding: PokemonSearchFragmentBinding
-    private val viewModel: PokemonViewModel by lazy {
-        ViewModelProviders.of(this).get(PokemonViewModel::class.java)
-    }
+    private lateinit var viewModel: PokemonViewModel
     private lateinit var adapter: PokemonListAdapter
 
     override fun onCreateView (
@@ -34,8 +32,11 @@ class PokemonSearchFragment: Fragment() {
     ): View? {
         binding = PokemonSearchFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        setupView()
-        subscribeUi()
+
+        viewModel = ViewModelProviders.of(this).get(PokemonViewModel::class.java)
+
+//        setupView()
+//        subscribeUi()
 
         return binding.root
     }

@@ -1,35 +1,26 @@
 package com.example.mypokedex.repository.pokemon
 
 import android.content.Context
-import com.example.mypokedex.model.pokemon.dto.PokemonDto
+import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.util.toPokemonEntity
 
 class PokemonRepository(context: Context) {
 
     private val remote = PokemonRemoteRepository()
     private val local = PokemonLocalRepository(context)
 
-    suspend fun getAll(offset: Int, limit: Int): List<PokemonDto>? {
-        val list = remote.getPokemons(offset, limit)
-        val pokemons = arrayListOf<PokemonDto>()
+    suspend fun getPokemonsRemote(offset: Int = 0, limit: Int = 10, url: String = "") : String? {
+        val pokemons = if (url.isEmpty()) remote.getPokemons(offset, limit) else remote.getNextList(url)
+        val pokemonsEntity = arrayListOf<PokemonEntity>()
 
-        for (result in list!!) {
-            val pokemon = remote.searchPokemonByNameOrId(result.name)
-            pokemons.add(pokemon!!)
+        for (pokemon in pokemons!!.results!!) {
+           pokemonsEntity.add(remote.searchPokemonByNameOrId(pokemon.name)!!.toPokemonEntity())
         }
 
-        return pokemons
+        local.insert(pokemonsEntity)
+
+        return pokemons.next
     }
 
-    suspend fun getNext(url: String): List<PokemonDto>? {
-        val list = remote.getNextList(url)
-        val pokemons = arrayListOf<PokemonDto>()
-
-        for (result in list!!) {
-            val pokemon = remote.searchPokemonByNameOrId(result.name)
-            pokemons.add(pokemon!!)
-        }
-
-        return pokemons
-    }
 
 }

@@ -58,8 +58,8 @@ class PokemonViewModel(
     }
 
     init {
-        requestPokemonList()
-        getPokemonTypes()
+//        requestPokemonList()
+//        getPokemonTypes()
         _searchViewOpen.value = false
         _filterOn.value = false
     }

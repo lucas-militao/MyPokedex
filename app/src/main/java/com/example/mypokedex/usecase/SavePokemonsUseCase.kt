@@ -6,11 +6,13 @@ import com.example.mypokedex.repository.progress.ProgressRepository
 
 class SavePokemonsUseCase(context: Context) {
 
-    private val progressRepository = ProgressRepository(context)
     private val pokemonRepository = PokemonRepository(context)
 
     suspend fun execute() {
-        //TODO
-    }
+        var next = pokemonRepository.getPokemonsRemote()
 
+        while (!next.isNullOrEmpty()) {
+            next = pokemonRepository.getPokemonsRemote(0,0, next)
+        }
+    }
 }

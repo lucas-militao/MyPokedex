@@ -15,6 +15,10 @@ class PokemonLocalRepository(context: Context) {
         pokemonDao.insert(pokemonEntity)
     }
 
+    suspend fun insert(data: List<PokemonEntity>) {
+        pokemonDao.insertOrUpdate(data)
+    }
+
     fun getAll(): LiveData<List<PokemonEntity>> {
         return pokemonDao.getAll()
     }

@@ -10,5 +10,5 @@ data class PokemonEntity(
     @ColumnInfo(name = "nome") val name: String,
     @ColumnInfo(name = "altura") val height: Int,
     @ColumnInfo(name = "peso") val weight: Int,
-    @ColumnInfo(name = "imagem") val sprite: String
+    @ColumnInfo(name = "imagem") val sprite: String = ""
 )
