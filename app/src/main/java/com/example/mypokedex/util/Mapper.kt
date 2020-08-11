@@ -12,7 +12,7 @@ fun PokemonDto.toPokemon(): Pokemon {
         name = this.name,
         height = this.height,
         weight = this.weight,
-        sprite = this.sprites.frontDefault ?: ""
+        sprite = this.sprites?.frontDefault ?: ""
     )
 }
 
@@ -32,6 +32,6 @@ fun PokemonDto.toPokemonEntity(): PokemonEntity {
         name = this.name,
         height = this.height,
         weight = this.weight,
-        sprite = this.sprites.frontDefault ?: ""
+        sprite = this.sprites?.frontDefault ?: ""
     )
 }

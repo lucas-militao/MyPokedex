@@ -9,12 +9,25 @@ class PokemonRepository(context: Context) {
     private val remote = PokemonRemoteRepository()
     private val local = PokemonLocalRepository(context)
 
-    suspend fun getPokemonsRemote(offset: Int = 0, limit: Int = 10, url: String = "") : String? {
-        val pokemons = if (url.isEmpty()) remote.getPokemons(offset, limit) else remote.getNextList(url)
+    suspend fun getPokemonsFirstPageRemote(offset: Int = 0, limit: Int = 10) : String? {
+        val pokemons = remote.getPokemons(offset, limit)
         val pokemonsEntity = arrayListOf<PokemonEntity>()
 
         for (pokemon in pokemons!!.results!!) {
            pokemonsEntity.add(remote.searchPokemonByNameOrId(pokemon.name)!!.toPokemonEntity())
+        }
+
+        local.insert(pokemonsEntity)
+
+        return pokemons.next
+    }
+
+    suspend fun getPokemonsNextPage(url: String): String? {
+        val pokemons = remote.getNextList(url)
+        val pokemonsEntity = arrayListOf<PokemonEntity>()
+
+        for (pokemon in pokemons!!.results!!) {
+            pokemonsEntity.add(remote.searchPokemonByNameOrId(pokemon.name)!!.toPokemonEntity())
         }
 
         local.insert(pokemonsEntity)
