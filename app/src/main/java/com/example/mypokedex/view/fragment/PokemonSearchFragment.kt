@@ -5,6 +5,7 @@ import android.transition.TransitionManager
 import android.view.*
 import android.widget.SearchView
 import android.widget.SearchView.OnQueryTextListener
+import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -35,38 +36,45 @@ class PokemonSearchFragment: Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(PokemonViewModel::class.java)
 
-//        setupView()
-//        subscribeUi()
+        setupView()
+        subscribeUi()
 
         return binding.root
     }
 
     private fun setupView() {
         binding.viewModel = viewModel
-        setupRecyclerView()
+        binding.pokemonList.adapter = PokemonListAdapter(onClick = {})
+//        setupRecyclerView()
         setHasOptionsMenu(true)
     }
 
     private fun subscribeUi() {
-        viewModel.pokemonsList.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
-            binding.pokemonList.visibility = View.VISIBLE
-            viewModel.pageRequested()
-        })
+//        viewModel.pokemonsList.observe(viewLifecycleOwner, Observer {
+//            adapter.submitList(it)
+//            binding.pokemonList.visibility = View.VISIBLE
+//            viewModel.pageRequested()
+//        })
+//
+//        viewModel.requestNewPage.observe(viewLifecycleOwner, Observer {
+//            if (it == true && viewModel.searchViewOpen.value == false && viewModel.filterOn.value == false) {
+//                viewModel.requestPokemonList()
+//            }
+//        })
+//
+//        viewModel.showProgress.observe(viewLifecycleOwner, Observer {
+//            binding.progressBar.visibility = if(it) {
+//                View.VISIBLE
+//            } else {
+//                View.GONE
+//            }
+//        })
+//
 
-        viewModel.requestNewPage.observe(viewLifecycleOwner, Observer {
-            if (it == true && viewModel.searchViewOpen.value == false && viewModel.filterOn.value == false) {
-                viewModel.requestPokemonList()
-            }
-        })
-
-        viewModel.showProgress.observe(viewLifecycleOwner, Observer {
-            binding.progressBar.visibility = if(it) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-        })
+//        viewModel.pokemons.observe(viewLifecycleOwner, Observer {
+//            adapter.submitList(it)
+//            binding.pokemonList.visibility = View.VISIBLE
+//        })
 
         viewModel.pokemonTypes.observe(viewLifecycleOwner, object: Observer<ArrayList<Type>> {
             override fun onChanged(data: ArrayList<Type>?) {
@@ -101,6 +109,10 @@ class PokemonSearchFragment: Fragment() {
                     chipGroup.addView(chip)
                 }
             }
+        })
+
+        viewModel.pokemonsList().observe(viewLifecycleOwner, Observer {
+            viewModel.updateList(it)
         })
 
         viewModel.searchViewOpen.observe(viewLifecycleOwner, Observer {
@@ -148,29 +160,27 @@ class PokemonSearchFragment: Fragment() {
         }
     }
 
-    private fun setupRecyclerView() {
-
-        adapter = PokemonListAdapter(onClick = {
-            viewModel.getPokemonInfo(it)
-        })
-
-        with(binding.pokemonList) {
-            this.adapter = this@PokemonSearchFragment.adapter
-
-            val nestedScrollPokemons = binding.nestedScrollPokemons
-
-            nestedScrollPokemons.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-
-                if (scrollY == ( v.getChildAt(0).measuredHeight - v.measuredHeight )) {
-                    viewModel.requestPage()
-                }
-
-            })
-
-
-        }
-
-    }
+//    private fun setupRecyclerView() {
+//
+//        adapter = PokemonListAdapter(onClick = {
+//            viewModel.getPokemonInfo(it)
+//        })
+//
+//        with(binding.pokemonList) {
+//            this.adapter = this@PokemonSearchFragment.adapter
+//
+//            val nestedScrollPokemons = binding.nestedScrollPokemons
+//
+//            nestedScrollPokemons.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//
+//                if (scrollY == ( v.getChildAt(0).measuredHeight - v.measuredHeight )) {
+//                    viewModel.requestPage()
+//                }
+//
+//            })
+//        }
+//
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {

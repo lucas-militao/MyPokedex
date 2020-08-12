@@ -6,11 +6,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mypokedex.R
+import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.type.Type
 import com.example.mypokedex.model.type.Types
+import com.example.mypokedex.view.adapter.PokemonListAdapter
 import java.util.*
 
 @BindingAdapter("pokemonType")
@@ -83,3 +86,8 @@ fun pokemonWeight(textView: TextView, weight: Int) {
     textView.text = textView.context.resources.getString(R.string.pokemon_weight, weight.toFloat() * 0.1)
 }
 
+@BindingAdapter("pokemonList")
+fun pokemonList(recyclerView: RecyclerView, data: List<PokemonEntity>?) {
+    val adapter = recyclerView.adapter as PokemonListAdapter
+    adapter.submitList(data)
+}

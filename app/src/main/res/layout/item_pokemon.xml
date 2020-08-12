@@ -6,7 +6,7 @@
     <data>
         <variable
             name="pokemon"
-            type="com.example.mypokedex.model.pokemon.dto.PokemonDto" />
+            type="com.example.mypokedex.model.pokemon.entity.PokemonEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/pikachu_img"
-            app:pokemonImage="@{pokemon.sprites.frontDefault}"/>
+            app:pokemonImage="@{pokemon.sprite}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/pokemonName"
@@ -40,18 +40,18 @@
             tools:text="Pikachu"
             app:pokemonName="@{pokemon.name}"/>
 
-        <LinearLayout
-            android:id="@+id/typeContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pokemonName"
-            app:pokemonType="@{pokemon.types}" />
+<!--        <LinearLayout-->
+<!--            android:id="@+id/typeContainer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/pokemonName"-->
+<!--            app:pokemonType="@{pokemon.}" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

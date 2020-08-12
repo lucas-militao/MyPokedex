@@ -6,9 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
+import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.model.pokemon.ui.Pokemon
 import com.example.mypokedex.model.type.Type
 import com.example.mypokedex.network.PokemonApiService
 import com.example.mypokedex.network.retrofit
+import com.example.mypokedex.repository.pokemon.PokemonRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,8 +21,13 @@ class PokemonViewModel(
     application: Application
 ): AndroidViewModel(application) {
 
+    private val repository = PokemonRepository(application.applicationContext)
+
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope( viewModelJob + Dispatchers.Main )
+
+    private val _pokemons = MutableLiveData<List<PokemonEntity>>()
+    val pokemons: LiveData<List<PokemonEntity>> = _pokemons
 
     private val _pokemonInfo = MutableLiveData<PokemonDto>()
     val pokemonInfo: LiveData<PokemonDto>
@@ -62,6 +70,10 @@ class PokemonViewModel(
 //        getPokemonTypes()
         _searchViewOpen.value = false
         _filterOn.value = false
+    }
+
+    fun pokemonsLiveData(): LiveData<List<PokemonEntity>> {
+        return repository.getPokemonsLiveData()
     }
 
     fun requestPokemonList() {
@@ -141,6 +153,11 @@ class PokemonViewModel(
         }
     }
 
+
+    fun pokemonsList(): LiveData<List<PokemonEntity>> {
+        return repository.getPokemonsLiveData()
+    }
+
     fun requestPage() {
         _requestNewPage.value = true
     }
@@ -182,6 +199,10 @@ class PokemonViewModel(
 
     fun pokemonInfoDelivered() {
         _pokemonInfo.value = null
+    }
+
+    fun updateList(list: List<PokemonEntity>) {
+        _pokemons.value = list
     }
 
     override fun onCleared() {

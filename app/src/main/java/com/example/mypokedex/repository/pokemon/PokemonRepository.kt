@@ -1,6 +1,7 @@
 package com.example.mypokedex.repository.pokemon
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.util.toPokemonEntity
 
@@ -35,5 +36,7 @@ class PokemonRepository(context: Context) {
         return pokemons.next
     }
 
-
+    fun getPokemonsLiveData(): LiveData<List<PokemonEntity>> {
+        return local.getAll()
+    }
 }

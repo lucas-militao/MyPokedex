@@ -28,13 +28,13 @@
                 android:id="@+id/pokemonList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pokemonTypeFilter"
-                app:spanCount="3" />
+                app:spanCount="3"
+                app:pokemonList="@{viewModel.pokemons}"/>
 
             <ProgressBar
                 android:id="@+id/progressBar"
