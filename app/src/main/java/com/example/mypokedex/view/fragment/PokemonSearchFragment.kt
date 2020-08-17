@@ -9,11 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.mypokedex.R
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
-import com.example.mypokedex.model.type.dto.TypeDto
 import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import com.example.mypokedex.viewmodel.PokemonViewModel
@@ -23,7 +21,6 @@ class PokemonSearchFragment: Fragment() {
 
     private lateinit var binding: PokemonSearchFragmentBinding
     private lateinit var viewModel: PokemonViewModel
-    private lateinit var adapter: PokemonListAdapter
 
     override fun onCreateView (
         inflater: LayoutInflater,
@@ -43,8 +40,9 @@ class PokemonSearchFragment: Fragment() {
 
     private fun setupView() {
         binding.viewModel = viewModel
-        binding.pokemonList.adapter = PokemonListAdapter(onClick = {})
-//        setupRecyclerView()
+        binding.pokemonList.adapter = PokemonListAdapter(onClick = {
+
+        })
         setHasOptionsMenu(true)
     }
 
@@ -94,9 +92,9 @@ class PokemonSearchFragment: Fragment() {
 
         viewModel.pokemonInfo.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                this.findNavController().navigate(PokemonSearchFragmentDirections
-                    .actionPokemonSearchFragmentToPokemonInfoFragment(it))
-                viewModel.pokemonInfoDelivered()
+//                this.findNavController().navigate(PokemonSearchFragmentDirections
+//                    .actionPokemonSearchFragmentToPokemonInfoFragment(it))
+//                viewModel.pokemonInfoDelivered()
             }
         })
 

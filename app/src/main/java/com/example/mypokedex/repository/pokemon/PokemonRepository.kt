@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.mypokedex.database.PokemonDatabase
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.pokemontype.PokemonTypeEntity
-import com.example.mypokedex.model.type.dto.TypeDto
+import com.example.mypokedex.model.pokemontype.PokemonWithTypes
 import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.repository.type.TypeLocalRepository
 import com.example.mypokedex.repository.type.TypeRemoteRepository
@@ -66,6 +66,10 @@ class PokemonRepository(context: Context) {
         typeLocal.insert(types)
     }
 
+//    suspend fun getPokemon(id: Int): PokemonWithTypes {
+//        return pokemonTypeLocal.searchPokemon(id)
+//    }
+
     fun getPokemonsLiveData(): LiveData<List<PokemonEntity>> {
         return pokemonLocal.getAll()
     }
@@ -73,4 +77,5 @@ class PokemonRepository(context: Context) {
     fun getTypesLiveData(): LiveData<List<TypeEntity>> {
         return typeLocal.getAll()
     }
+
 }

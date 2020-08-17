@@ -6,6 +6,10 @@ import com.example.mypokedex.model.type.dao.TypeDao
 @Dao
 interface PokemonTypeDao {
 
+    @Transaction
+    @Query("SELECT * FROM pokemon WHERE id = :id")
+    fun searchPokemon(id: Int): List<PokemonWithTypes>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(pokemonType: PokemonTypeEntity): Long
 

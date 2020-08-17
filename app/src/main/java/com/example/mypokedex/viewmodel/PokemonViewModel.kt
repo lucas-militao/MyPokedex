@@ -22,7 +22,6 @@ class PokemonViewModel(
     private val repository = PokemonRepository(application.applicationContext)
 
     private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope( viewModelJob + Dispatchers.Main )
 
     private val _pokemons = MutableLiveData<List<PokemonEntity>>()
     val pokemons: LiveData<List<PokemonEntity>> = _pokemons
@@ -30,10 +29,6 @@ class PokemonViewModel(
     private val _pokemonInfo = MutableLiveData<PokemonDto>()
     val pokemonInfo: LiveData<PokemonDto>
         get() = _pokemonInfo
-
-    private val _pokemonsList = MutableLiveData<ArrayList<PokemonDto>>()
-    val pokemonsList: LiveData<ArrayList<PokemonDto>>
-        get() = _pokemonsList
 
     private val _pokemonTypes = MutableLiveData<List<TypeEntity>>()
     val pokemonTypes: LiveData<List<TypeEntity>>
@@ -47,17 +42,9 @@ class PokemonViewModel(
     val searchViewOpen: LiveData<Boolean>
         get() = _searchViewOpen
 
-    private val _filterOn = MutableLiveData<Boolean>()
-    val filterOn: LiveData<Boolean>
-        get() = _filterOn
-
-    private val retrofitService: PokemonApiService by lazy {
-        retrofit.create(PokemonApiService::class.java)
-    }
 
     init {
         _searchViewOpen.value = false
-        _filterOn.value = false
     }
 
     fun pokemonTypes(): LiveData<List<TypeEntity>> {
@@ -75,10 +62,6 @@ class PokemonViewModel(
     fun searchViewClosed() {
         _next.value = null
         _searchViewOpen.value = false
-    }
-
-    fun filtering() {
-        _filterOn.value = true
     }
 
     fun getPokemonInfo(pokemonDto: PokemonDto) {

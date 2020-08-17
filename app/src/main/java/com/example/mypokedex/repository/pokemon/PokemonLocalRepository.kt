@@ -9,7 +9,6 @@ class PokemonLocalRepository(context: Context) {
 
     private val pokemonDao = PokemonDatabase.getDatabase(context).pokemonDao()
 
-
     suspend fun insert(pokemonEntity: PokemonEntity) {
         pokemonDao.insert(pokemonEntity)
     }

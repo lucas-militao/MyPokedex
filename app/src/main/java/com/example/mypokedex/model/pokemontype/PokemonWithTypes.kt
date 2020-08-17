@@ -7,11 +7,17 @@ import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.type.entity.TypeEntity
 
 data class PokemonWithTypes(
-    @Embedded val pokemon: PokemonEntity,
+    @Embedded
+    val pokemon: PokemonEntity,
     @Relation(
-        parentColumn = "type_id",
-        entityColumn = "pokemon_id",
-        associateBy = Junction(PokemonTypeEntity::class)
+        parentColumn = "id",
+        entity = TypeEntity::class,
+        entityColumn = "id",
+        associateBy = Junction(
+            value = PokemonTypeEntity::class,
+            parentColumn = "pokemon_id",
+            entityColumn = "type_id"
+        )
     )
     val type: List<TypeEntity>
 )
