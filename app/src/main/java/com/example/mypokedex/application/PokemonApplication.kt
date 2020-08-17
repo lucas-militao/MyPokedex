@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.work.Constraints
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.mypokedex.work.SavePokemonTypesWorker
 import com.example.mypokedex.work.SavePokemonsWorker
 import com.facebook.stetho.Stetho
 import java.util.concurrent.TimeUnit
@@ -28,6 +29,7 @@ class PokemonApplication: Application(){
         super.onCreate()
 
         stetho()
+        savePokemonTypesWork()
         savePokemonsWork()
     }
 
@@ -42,6 +44,15 @@ class PokemonApplication: Application(){
                 .build()
 
         WorkManager.getInstance(applicationContext).enqueue(savePokemons)
+    }
+
+    fun savePokemonTypesWork() {
+        val saveTypes =
+            PeriodicWorkRequestBuilder<SavePokemonTypesWorker>(12, TimeUnit.HOURS)
+                .addTag("Save types")
+                .build()
+
+        WorkManager.getInstance(applicationContext).enqueue(saveTypes)
     }
 }
 

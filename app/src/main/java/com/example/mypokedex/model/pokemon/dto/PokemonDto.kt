@@ -2,7 +2,7 @@ package com.example.mypokedex.model.pokemon.dto
 
 import android.os.Parcelable
 import com.example.mypokedex.model.sprites.Sprites
-import com.example.mypokedex.model.type.Types
+import com.example.mypokedex.model.type.response.Types
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

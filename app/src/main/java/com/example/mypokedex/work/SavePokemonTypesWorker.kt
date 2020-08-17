@@ -3,12 +3,12 @@ package com.example.mypokedex.work
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.mypokedex.usecase.SavePokemonsUseCase
+import com.example.mypokedex.usecase.SavePokemonTypesUseCase
 import java.lang.Exception
 
-class SavePokemonsWorker(ctx: Context, params: WorkerParameters): CoroutineWorker(ctx, params) {
+class SavePokemonTypesWorker(ctx: Context, params: WorkerParameters): CoroutineWorker(ctx, params) {
 
-    private val useCase = SavePokemonsUseCase(ctx)
+    private val useCase = SavePokemonTypesUseCase(ctx)
 
     override suspend fun doWork(): Result {
         return try {

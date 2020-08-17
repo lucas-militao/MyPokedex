@@ -3,7 +3,8 @@ package com.example.mypokedex.util
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.pokemon.ui.Pokemon
-
+import com.example.mypokedex.model.type.entity.TypeEntity
+import com.example.mypokedex.model.type.response.TypeResponse
 
 
 fun PokemonDto.toPokemon(): Pokemon {
@@ -33,5 +34,12 @@ fun PokemonDto.toPokemonEntity(): PokemonEntity {
         height = this.height,
         weight = this.weight,
         sprite = this.sprites?.frontDefault ?: ""
+    )
+}
+
+fun TypeResponse.toTypeEntity(): TypeEntity {
+    return TypeEntity(
+        id = this.id,
+        name = this.name
     )
 }

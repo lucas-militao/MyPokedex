@@ -1,21 +1,18 @@
 package com.example.mypokedex.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
-import com.example.mypokedex.model.pokemon.ui.Pokemon
-import com.example.mypokedex.model.type.Type
+import com.example.mypokedex.model.type.dto.TypeDto
 import com.example.mypokedex.network.PokemonApiService
 import com.example.mypokedex.network.retrofit
 import com.example.mypokedex.repository.pokemon.PokemonRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class PokemonViewModel(
     application: Application
@@ -37,8 +34,8 @@ class PokemonViewModel(
     val pokemonsList: LiveData<ArrayList<PokemonDto>>
         get() = _pokemonsList
 
-    private val _pokemonTypes = MutableLiveData<ArrayList<Type>>()
-    val pokemonTypes: LiveData<ArrayList<Type>>
+    private val _pokemonTypes = MutableLiveData<ArrayList<TypeDto>>()
+    val pokemonTypes: LiveData<ArrayList<TypeDto>>
         get() = _pokemonTypes
 
     private val _next = MutableLiveData<String>()
@@ -66,8 +63,6 @@ class PokemonViewModel(
     }
 
     init {
-//        requestPokemonList()
-//        getPokemonTypes()
         _searchViewOpen.value = false
         _filterOn.value = false
     }
@@ -76,94 +71,21 @@ class PokemonViewModel(
         return repository.getPokemonsLiveData()
     }
 
-    fun requestPokemonList() {
-        coroutineScope.launch {
-            showProgress()
-            val requestResult = (
-                if (_next.value == null) {
-                    _pokemonsList.value = null
-                    retrofitService.getList(0, 20)
-                } else {
-                    retrofitService.getNextList(_next.value!!)
-                }
-            )
-
-            try {
-                val result = requestResult.await()
-                val pokemons = ArrayList<PokemonDto>()
-                if (_pokemonsList.value != null) pokemons.addAll(_pokemonsList.value!!)
-
-                for (item in result.results!!) {
-                    pokemons.add(retrofitService.getPokemonByNameOrId(item.name).await())
-                }
-                _pokemonsList.value = pokemons
-                _next.value = result.next
-            } catch (e: Exception) {
-                Log.e("REQUEST PAGE ERROR", "requestPokemonList: ${e.message}")
-            }
-            closeProgress()
-        }
-    }
-
     fun searchPokemon(name: String) {
-        coroutineScope.launch {
-            showProgress()
-            val getDeferred = retrofitService.getPokemonByNameOrId(name)
-            try {
-                val pokemon = getDeferred.await()
-                _pokemonsList.value = arrayListOf(pokemon)
-            } catch (e: Exception) {
-                Log.e("REQUEST PAGE ERROR", "ERROR: ${e.message}" )
-            }
-            closeProgress()
-        }
+        //TODO
     }
 
     fun getPokemonTypes() {
-        coroutineScope.launch {
-            val getDeferred = retrofitService.getPokemonTypes()
-
-            try {
-                _pokemonTypes.value = getDeferred.await().results as ArrayList<Type>
-            } catch (e: Exception) {
-                Log.e("RESQUEST TYPES ERROR", "ERROR ${e.message}")
-            }
-        }
+       //TODO
     }
 
     fun applyTypeFilter(type: String) {
-        coroutineScope.launch {
-            showProgress()
-            val getDeferred = retrofitService.searchPokemonsByTypeId(type)
-
-            try {
-                val pokemons = getDeferred.await()
-                val result = arrayListOf<PokemonDto>()
-                for (pokemonResult in pokemons.pokemon) {
-                    val pokemon = retrofitService.getPokemonByNameOrId(pokemonResult.pokemon.name)
-                    result.add(pokemon.await())
-                }
-                _pokemonsList.value = arrayListOf()
-                _next.value = null
-                _pokemonsList.value = result
-            } catch (e: Exception) {
-                Log.e("RESQUEST FILTER ERROR", "ERROR ${e.message}")
-            }
-            closeProgress()
-        }
+        //TODO
     }
 
 
     fun pokemonsList(): LiveData<List<PokemonEntity>> {
         return repository.getPokemonsLiveData()
-    }
-
-    fun requestPage() {
-        _requestNewPage.value = true
-    }
-
-    fun pageRequested() {
-        _requestNewPage.value = false
     }
 
     fun showProgress() {
@@ -185,12 +107,6 @@ class PokemonViewModel(
 
     fun filtering() {
         _filterOn.value = true
-    }
-
-    fun filterOff() {
-        _filterOn.value = false
-        _pokemonsList.value = arrayListOf()
-        requestPage()
     }
 
     fun getPokemonInfo(pokemonDto: PokemonDto) {

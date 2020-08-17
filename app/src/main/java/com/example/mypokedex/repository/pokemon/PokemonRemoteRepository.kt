@@ -24,7 +24,7 @@ class PokemonRemoteRepository {
     }
 
     suspend fun getNextList(url: String): ListResponse<ListObjectResponse>? {
-        val getPropertiesDeferred = retrofitService.getNextList(url)
+        val getPropertiesDeferred = retrofitService.getNextListByUrl(url)
         return try {
             getPropertiesDeferred.await()
         } catch (e: Exception) {

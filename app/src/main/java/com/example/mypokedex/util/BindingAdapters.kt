@@ -11,8 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mypokedex.R
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
-import com.example.mypokedex.model.type.Type
-import com.example.mypokedex.model.type.Types
+import com.example.mypokedex.model.type.response.Types
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import java.util.*
 
