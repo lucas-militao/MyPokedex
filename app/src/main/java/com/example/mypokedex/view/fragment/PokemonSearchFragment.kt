@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.mypokedex.R
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
 import com.example.mypokedex.model.type.dto.TypeDto
+import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import com.example.mypokedex.viewmodel.PokemonViewModel
 import com.google.android.material.chip.Chip
@@ -49,8 +50,8 @@ class PokemonSearchFragment: Fragment() {
 
     private fun subscribeUi() {
 
-        viewModel.pokemonTypes.observe(viewLifecycleOwner, object: Observer<ArrayList<TypeDto>> {
-            override fun onChanged(data: ArrayList<TypeDto>?) {
+        viewModel.pokemonTypes.observe(viewLifecycleOwner, object: Observer<List<TypeEntity>> {
+            override fun onChanged(data: List<TypeEntity>?) {
                 data ?: return
                 val chipGroup = binding.pokemonTypeFilter
                 val inflator = LayoutInflater.from(chipGroup.context)
@@ -60,10 +61,6 @@ class PokemonSearchFragment: Fragment() {
                     chip.tag = type.name
                     
                     chip.setOnCheckedChangeListener { button, isChecked ->
-                        if (isChecked) {
-                            viewModel.applyTypeFilter(button.tag.toString())
-                            viewModel.filtering()
-                        }
                     }
                     
                     chip
@@ -81,6 +78,10 @@ class PokemonSearchFragment: Fragment() {
                     chipGroup.addView(chip)
                 }
             }
+        })
+
+        viewModel.pokemonTypes().observe(viewLifecycleOwner, Observer {
+            viewModel.updateTypes(it)
         })
 
         viewModel.pokemonsList().observe(viewLifecycleOwner, Observer {
@@ -110,7 +111,6 @@ class PokemonSearchFragment: Fragment() {
         searchView.setOnQueryTextListener(object: OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!p0.isNullOrEmpty()) {
-                    viewModel.searchPokemon(p0)
                     binding.pokemonList.visibility = View.GONE
                 }
                 return false

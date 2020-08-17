@@ -1,5 +1,6 @@
 package com.example.mypokedex.model.type.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mypokedex.model.type.entity.TypeEntity
 
@@ -10,7 +11,10 @@ interface TypeDao {
     }
 
     @Query("SELECT * FROM type")
-    fun getAll(): List<TypeEntity>
+    fun getAllLiveData(): LiveData<List<TypeEntity>>
+
+    @Query("SELECT * FROM type WHERE nome = :param")
+    suspend fun searchType(param: String): TypeEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(type: TypeEntity): Long

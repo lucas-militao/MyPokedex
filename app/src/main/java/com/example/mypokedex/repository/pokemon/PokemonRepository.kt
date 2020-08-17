@@ -26,15 +26,13 @@ class PokemonRepository(context: Context) {
 
         for (pokemon in pokemons!!.results!!) {
             val pokemon = pokemonRemote.searchPokemonByNameOrId(pokemon.name)
-            val types = arrayListOf<TypeEntity>()
 
             pokemonLocal.insert(pokemon!!.toPokemonEntity())
 
             for (type in pokemon.types) {
-                val t = (typeRemote.getType(type.type.name)!!.toTypeEntity())
+                val t = typeLocal.getTypeByName(type.type.name)
                 val p = pokemon.toPokemonEntity()
 
-                typeLocal.insert(t)
                 pokemonTypeLocal.insertOrUpdate(PokemonTypeEntity(p.id, t.id))
             }
 
@@ -56,10 +54,6 @@ class PokemonRepository(context: Context) {
         return pokemons.next
     }
 
-    fun getPokemonsLiveData(): LiveData<List<PokemonEntity>> {
-        return pokemonLocal.getAll()
-    }
-
     suspend fun getTypes() {
         val response = typeRemote.getTypes()
         val types = arrayListOf<TypeEntity>()
@@ -70,5 +64,13 @@ class PokemonRepository(context: Context) {
             }
         }
         typeLocal.insert(types)
+    }
+
+    fun getPokemonsLiveData(): LiveData<List<PokemonEntity>> {
+        return pokemonLocal.getAll()
+    }
+
+    fun getTypesLiveData(): LiveData<List<TypeEntity>> {
+        return typeLocal.getAll()
     }
 }

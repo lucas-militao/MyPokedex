@@ -2,7 +2,6 @@ package com.example.mypokedex.application
 
 import android.app.Application
 import android.content.Context
-import androidx.work.Constraints
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.mypokedex.work.SavePokemonTypesWorker

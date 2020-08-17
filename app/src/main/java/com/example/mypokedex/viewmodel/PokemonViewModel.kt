@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.type.dto.TypeDto
+import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.network.PokemonApiService
 import com.example.mypokedex.network.retrofit
 import com.example.mypokedex.repository.pokemon.PokemonRepository
@@ -34,21 +35,13 @@ class PokemonViewModel(
     val pokemonsList: LiveData<ArrayList<PokemonDto>>
         get() = _pokemonsList
 
-    private val _pokemonTypes = MutableLiveData<ArrayList<TypeDto>>()
-    val pokemonTypes: LiveData<ArrayList<TypeDto>>
+    private val _pokemonTypes = MutableLiveData<List<TypeEntity>>()
+    val pokemonTypes: LiveData<List<TypeEntity>>
         get() = _pokemonTypes
 
     private val _next = MutableLiveData<String>()
     val next: LiveData<String>
         get() = _next
-
-    private val _requestNewPage = MutableLiveData<Boolean>()
-    val requestNewPage: LiveData<Boolean>
-        get() = _requestNewPage
-
-    private val _showProgress = MutableLiveData<Boolean>()
-    val showProgress: LiveData<Boolean>
-        get() = _showProgress
 
     private val _searchViewOpen = MutableLiveData<Boolean>()
     val searchViewOpen: LiveData<Boolean>
@@ -67,33 +60,12 @@ class PokemonViewModel(
         _filterOn.value = false
     }
 
-    fun pokemonsLiveData(): LiveData<List<PokemonEntity>> {
-        return repository.getPokemonsLiveData()
+    fun pokemonTypes(): LiveData<List<TypeEntity>> {
+        return repository.getTypesLiveData()
     }
-
-    fun searchPokemon(name: String) {
-        //TODO
-    }
-
-    fun getPokemonTypes() {
-       //TODO
-    }
-
-    fun applyTypeFilter(type: String) {
-        //TODO
-    }
-
 
     fun pokemonsList(): LiveData<List<PokemonEntity>> {
         return repository.getPokemonsLiveData()
-    }
-
-    fun showProgress() {
-        _showProgress.value = true
-    }
-
-    fun closeProgress() {
-        _showProgress.value = false
     }
 
     fun searchViewEnabled() {
@@ -119,6 +91,10 @@ class PokemonViewModel(
 
     fun updateList(list: List<PokemonEntity>) {
         _pokemons.value = list
+    }
+
+    fun updateTypes(list: List<TypeEntity>) {
+        _pokemonTypes.value = list
     }
 
     override fun onCleared() {
