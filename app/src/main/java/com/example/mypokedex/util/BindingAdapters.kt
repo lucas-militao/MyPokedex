@@ -11,23 +11,24 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mypokedex.R
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.model.type.response.Types
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import java.util.*
 
 @BindingAdapter("pokemonType")
-fun pokemonType(container: LinearLayout, types: List<Types>) {
+fun pokemonType(container: LinearLayout, types: List<TypeEntity>) {
 
     for (type in types) {
 
         val textView = TextView(container.context)
 
         with(textView) {
-            this.text = type.type.name.toUpperCase(Locale.ROOT)
+            this.text = type.name.toUpperCase(Locale.ROOT)
             this.setTypeface(null, Typeface.BOLD)
             this.setPadding(8,8,8,8)
 
-            val colorResource = when(type.type.name) {
+            val colorResource = when(type.name) {
                 "fire" -> resources.getColor(R.color.type_fire)
                 "grass" -> resources.getColor(R.color.type_grass)
                 "ground" -> resources.getColor(R.color.type_ground)

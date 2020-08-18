@@ -9,9 +9,9 @@
         android:id="@+id/pokemonSearchFragment"
         android:name="com.example.mypokedex.view.fragment.PokemonSearchFragment"
         android:label="PokemonSearchFragment" >
-<!--        <action-->
-<!--            android:id="@+id/action_pokemonSearchFragment_to_pokemonInfoFragment"-->
-<!--            app:destination="@id/pokemonInfoFragment" />-->
+        <action
+            android:id="@+id/action_pokemonSearchFragment_to_pokemonInfoFragment"
+            app:destination="@id/pokemonInfoFragment" />
     </fragment>
 
     <fragment
@@ -19,14 +19,13 @@
         android:name="com.example.mypokedex.view.fragment.AboutFragment"
         android:label="about" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/pokemonInfoFragment"-->
-<!--        android:name="com.example.mypokedex.view.fragment.PokemonInfoFragment"-->
-<!--        android:label="PokemonInfoFragment" >-->
+    <fragment
+        android:id="@+id/pokemonInfoFragment"
+        android:name="com.example.mypokedex.view.fragment.PokemonInfoFragment"
+        android:label="PokemonInfoFragment" >
 
-<!--        <argument-->
-<!--            android:name="pokemonInfo"-->
-<!--            app:argType="com.example.mypokedex.model.pokemontype.PokemonWithTypes"/>-->
-
-<!--    </fragment>-->
+        <argument
+            android:name="pokemonId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

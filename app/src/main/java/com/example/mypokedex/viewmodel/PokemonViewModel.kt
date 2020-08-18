@@ -4,16 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.mypokedex.model.pokemon.dto.PokemonDto
+import androidx.lifecycle.viewModelScope
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
-import com.example.mypokedex.model.type.dto.TypeDto
+import com.example.mypokedex.model.pokemontype.PokemonWithTypes
 import com.example.mypokedex.model.type.entity.TypeEntity
-import com.example.mypokedex.network.PokemonApiService
-import com.example.mypokedex.network.retrofit
 import com.example.mypokedex.repository.pokemon.PokemonRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class PokemonViewModel(
     application: Application
@@ -26,8 +24,12 @@ class PokemonViewModel(
     private val _pokemons = MutableLiveData<List<PokemonEntity>>()
     val pokemons: LiveData<List<PokemonEntity>> = _pokemons
 
-    private val _pokemonInfo = MutableLiveData<PokemonDto>()
-    val pokemonInfo: LiveData<PokemonDto>
+    private val _pokemonId = MutableLiveData<Int>()
+    val pokemonId: LiveData<Int>
+        get() = _pokemonId
+
+    private val _pokemonInfo = MutableLiveData<PokemonWithTypes>()
+    val pokemonInfo: LiveData<PokemonWithTypes>
         get() = _pokemonInfo
 
     private val _pokemonTypes = MutableLiveData<List<TypeEntity>>()
@@ -64,12 +66,19 @@ class PokemonViewModel(
         _searchViewOpen.value = false
     }
 
-    fun getPokemonInfo(pokemonDto: PokemonDto) {
-        _pokemonInfo.value = pokemonDto
+    fun getPokemonId(id: Int) {
+        _pokemonId.value = id
     }
 
-    fun pokemonInfoDelivered() {
-        _pokemonInfo.value = null
+    fun getPokemonInfo(id: Int) {
+        viewModelScope.launch {
+            val p = repository.getPokemon(id)
+            _pokemonInfo.value = p
+        }
+    }
+
+    fun pokemonIdDelivered() {
+        _pokemonId.value = null
     }
 
     fun updateList(list: List<PokemonEntity>) {

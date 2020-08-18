@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.mypokedex.R
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
@@ -41,7 +42,7 @@ class PokemonSearchFragment: Fragment() {
     private fun setupView() {
         binding.viewModel = viewModel
         binding.pokemonList.adapter = PokemonListAdapter(onClick = {
-
+            viewModel.getPokemonId(it)
         })
         setHasOptionsMenu(true)
     }
@@ -90,11 +91,11 @@ class PokemonSearchFragment: Fragment() {
             //TODO: Buscar forma de desativar filtro quando barra de pesquisa está aberta
         })
 
-        viewModel.pokemonInfo.observe(viewLifecycleOwner, Observer {
+        viewModel.pokemonId.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-//                this.findNavController().navigate(PokemonSearchFragmentDirections
-//                    .actionPokemonSearchFragmentToPokemonInfoFragment(it))
-//                viewModel.pokemonInfoDelivered()
+                this.findNavController().navigate(PokemonSearchFragmentDirections
+                    .actionPokemonSearchFragmentToPokemonInfoFragment(it))
+                viewModel.pokemonIdDelivered()
             }
         })
 

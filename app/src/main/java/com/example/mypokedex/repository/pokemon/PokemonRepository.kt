@@ -66,9 +66,9 @@ class PokemonRepository(context: Context) {
         typeLocal.insert(types)
     }
 
-//    suspend fun getPokemon(id: Int): PokemonWithTypes {
-//        return pokemonTypeLocal.searchPokemon(id)
-//    }
+    suspend fun getPokemon(id: Int): PokemonWithTypes {
+        return pokemonTypeLocal.searchPokemon(id)
+    }
 
     fun getPokemonsLiveData(): LiveData<List<PokemonEntity>> {
         return pokemonLocal.getAll()
