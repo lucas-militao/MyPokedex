@@ -25,7 +25,7 @@
         android:label="PokemonInfoFragment" >
 
         <argument
-            android:name="pokemonId"
-            app:argType="integer" />
+            android:name="pokemon"
+            app:argType="com.example.mypokedex.model.pokemon.ui.Pokemon" />
     </fragment>
 </navigation>

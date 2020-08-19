@@ -42,7 +42,7 @@ class PokemonSearchFragment: Fragment() {
     private fun setupView() {
         binding.viewModel = viewModel
         binding.pokemonList.adapter = PokemonListAdapter(onClick = {
-            viewModel.getPokemonId(it)
+            viewModel.getPokemonInfo(it.id)
         })
         setHasOptionsMenu(true)
     }
@@ -91,11 +91,10 @@ class PokemonSearchFragment: Fragment() {
             //TODO: Buscar forma de desativar filtro quando barra de pesquisa está aberta
         })
 
-        viewModel.pokemonId.observe(viewLifecycleOwner, Observer {
+        viewModel.pokemonInfo.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                this.findNavController().navigate(PokemonSearchFragmentDirections
-                    .actionPokemonSearchFragmentToPokemonInfoFragment(it))
-                viewModel.pokemonIdDelivered()
+                this.findNavController().navigate(PokemonSearchFragmentDirections.actionPokemonSearchFragmentToPokemonInfoFragment(it))
+                viewModel.pokemonInfoDelivered()
             }
         })
 

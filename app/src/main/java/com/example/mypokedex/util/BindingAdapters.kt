@@ -11,13 +11,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mypokedex.R
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
-import com.example.mypokedex.model.type.entity.TypeEntity
-import com.example.mypokedex.model.type.response.Types
+import com.example.mypokedex.model.type.ui.Type
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import java.util.*
 
 @BindingAdapter("pokemonType")
-fun pokemonType(container: LinearLayout, types: List<TypeEntity>) {
+fun pokemonType(container: LinearLayout, types: List<Type>) {
 
     for (type in types) {
 

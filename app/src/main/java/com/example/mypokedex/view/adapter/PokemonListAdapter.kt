@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mypokedex.databinding.ItemPokemonBinding
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 
-class PokemonListAdapter(var onClick: (Int) -> Unit): ListAdapter<PokemonEntity, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
+class PokemonListAdapter(var onClick: (PokemonEntity) -> Unit): ListAdapter<PokemonEntity, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<PokemonEntity>() {
         override fun areItemsTheSame(
@@ -29,9 +29,9 @@ class PokemonListAdapter(var onClick: (Int) -> Unit): ListAdapter<PokemonEntity,
 
     inner class PokemonViewHolder(private var binding: ItemPokemonBinding)
         : RecyclerView.ViewHolder(binding.root) {
-        fun bind(pokemon: PokemonEntity, onClick: (Int) -> Unit) {
+        fun bind(pokemon: PokemonEntity, onClick: (PokemonEntity) -> Unit) {
             binding.pokemon = pokemon
-            binding.itemPokemonContainer.setOnClickListener { onClick(pokemon.id) }
+            binding.itemPokemonContainer.setOnClickListener { onClick(pokemon) }
             binding.executePendingBindings()
         }
     }
