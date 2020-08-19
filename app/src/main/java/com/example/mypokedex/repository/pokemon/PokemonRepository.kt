@@ -81,7 +81,7 @@ class PokemonRepository(context: Context) {
         return pokemon
     }
 
-    fun getPokemonsLiveData(): LiveData<List<PokemonEntity>> {
+    fun getPokemonsLiveData(): LiveData<List<PokemonWithTypes>> {
         return pokemonLocal.getAll()
     }
 

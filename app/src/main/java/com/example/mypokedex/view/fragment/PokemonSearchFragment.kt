@@ -42,7 +42,7 @@ class PokemonSearchFragment: Fragment() {
     private fun setupView() {
         binding.viewModel = viewModel
         binding.pokemonList.adapter = PokemonListAdapter(onClick = {
-            viewModel.getPokemonInfo(it.id)
+            viewModel.getPokemonInfo(it.pokemon.id)
         })
         setHasOptionsMenu(true)
     }

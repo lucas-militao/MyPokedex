@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.mypokedex.database.PokemonDatabase
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.model.pokemontype.PokemonWithTypes
 
 class PokemonLocalRepository(context: Context) {
 
@@ -17,7 +18,7 @@ class PokemonLocalRepository(context: Context) {
         pokemonDao.insertOrUpdate(data)
     }
 
-    fun getAll(): LiveData<List<PokemonEntity>> {
+    fun getAll(): LiveData<List<PokemonWithTypes>> {
         return pokemonDao.getAll()
     }
 

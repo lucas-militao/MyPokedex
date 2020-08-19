@@ -22,8 +22,8 @@ class PokemonViewModel(
 
     private val viewModelJob = Job()
 
-    private val _pokemons = MutableLiveData<List<PokemonEntity>>()
-    val pokemons: LiveData<List<PokemonEntity>> = _pokemons
+    private val _pokemons = MutableLiveData<List<PokemonWithTypes>>()
+    val pokemons: LiveData<List<PokemonWithTypes>> = _pokemons
 
     private val _pokemonInfo = MutableLiveData<Pokemon>()
     val pokemonInfo: LiveData<Pokemon>
@@ -50,7 +50,7 @@ class PokemonViewModel(
         return repository.getTypesLiveData()
     }
 
-    fun pokemonsList(): LiveData<List<PokemonEntity>> {
+    fun pokemonsList(): LiveData<List<PokemonWithTypes>> {
         return repository.getPokemonsLiveData()
     }
 
@@ -73,7 +73,7 @@ class PokemonViewModel(
         _pokemonInfo.value = null
     }
 
-    fun updateList(list: List<PokemonEntity>) {
+    fun updateList(list: List<PokemonWithTypes>) {
         _pokemons.value = list
     }
 

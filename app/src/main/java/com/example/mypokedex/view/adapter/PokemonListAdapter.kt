@@ -7,29 +7,30 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mypokedex.databinding.ItemPokemonBinding
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.model.pokemontype.PokemonWithTypes
 
-class PokemonListAdapter(var onClick: (PokemonEntity) -> Unit): ListAdapter<PokemonEntity, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
+class PokemonListAdapter(var onClick: (PokemonWithTypes) -> Unit): ListAdapter<PokemonWithTypes, PokemonListAdapter.PokemonViewHolder>(DiffCallback) {
 
-    companion object DiffCallback : DiffUtil.ItemCallback<PokemonEntity>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<PokemonWithTypes>() {
         override fun areItemsTheSame(
-            oldItem: PokemonEntity,
-            newItem: PokemonEntity
+            oldItem: PokemonWithTypes,
+            newItem: PokemonWithTypes
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: PokemonEntity,
-            newItem: PokemonEntity
+            oldItem: PokemonWithTypes,
+            newItem: PokemonWithTypes
         ): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.pokemon.id == newItem.pokemon.id
         }
 
     }
 
     inner class PokemonViewHolder(private var binding: ItemPokemonBinding)
         : RecyclerView.ViewHolder(binding.root) {
-        fun bind(pokemon: PokemonEntity, onClick: (PokemonEntity) -> Unit) {
+        fun bind(pokemon: PokemonWithTypes, onClick: (PokemonWithTypes) -> Unit) {
             binding.pokemon = pokemon
             binding.itemPokemonContainer.setOnClickListener { onClick(pokemon) }
             binding.executePendingBindings()

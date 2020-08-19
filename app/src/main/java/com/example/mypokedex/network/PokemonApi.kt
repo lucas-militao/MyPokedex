@@ -3,7 +3,6 @@ package com.example.mypokedex.network
 import com.example.mypokedex.model.pokemon.dto.PokemonDto
 import com.example.mypokedex.model.response.ListObjectResponse
 import com.example.mypokedex.model.response.ListResponse
-import com.example.mypokedex.model.type.response.PokemonTypeResponse
 import com.example.mypokedex.model.type.dto.TypeDto
 import com.example.mypokedex.model.type.response.TypeResponse
 import kotlinx.coroutines.Deferred

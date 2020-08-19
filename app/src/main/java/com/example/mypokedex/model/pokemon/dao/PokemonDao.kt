@@ -3,6 +3,7 @@ package com.example.mypokedex.model.pokemon.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
+import com.example.mypokedex.model.pokemontype.PokemonWithTypes
 
 @Dao
 interface PokemonDao {
@@ -12,7 +13,7 @@ interface PokemonDao {
     }
 
     @Query("SELECT * FROM pokemon ORDER BY id ASC")
-    fun getAll(): LiveData<List<PokemonEntity>>
+    fun getAll(): LiveData<List<PokemonWithTypes>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(pokemonEntity: PokemonEntity): Long
