@@ -28,17 +28,16 @@ class PokemonRepository(context: Context) {
         val pokemons = pokemonRemote.getPokemons(offset, limit)
 
         for (pokemon in pokemons!!.results!!) {
-            val pokemon = pokemonRemote.searchPokemonByNameOrId(pokemon.name)
+            val pokemonDto = pokemonRemote.searchPokemonByNameOrId(pokemon.name)
 
-            pokemonLocal.insert(pokemon!!.toPokemonEntity())
+            pokemonLocal.insert(pokemonDto!!.toPokemonEntity())
 
-            for (type in pokemon.types) {
+            pokemonDto.types.forEach { type ->
                 val t = typeLocal.getTypeByName(type.type.name)
-                val p = pokemon.toPokemonEntity()
+                val p = pokemonDto.toPokemonEntity()
 
                 pokemonTypeLocal.insertOrUpdate(PokemonTypeEntity(p.id, t.id))
             }
-
         }
 
         return pokemons.next
@@ -46,13 +45,19 @@ class PokemonRepository(context: Context) {
 
     suspend fun getPokemonsNextPage(url: String): String? {
         val pokemons = pokemonRemote.getNextList(url)
-        val pokemonsEntity = arrayListOf<PokemonEntity>()
 
         for (pokemon in pokemons!!.results!!) {
-            pokemonsEntity.add(pokemonRemote.searchPokemonByNameOrId(pokemon.name)!!.toPokemonEntity())
-        }
+            val pokemonDto = pokemonRemote.searchPokemonByNameOrId(pokemon.name)
 
-        pokemonLocal.insert(pokemonsEntity)
+            pokemonLocal.insert(pokemonDto!!.toPokemonEntity())
+
+            pokemonDto.types.forEach { type ->
+                val t = typeLocal.getTypeByName(type.type.name)
+                val p = pokemonDto.toPokemonEntity()
+
+                pokemonTypeLocal.insertOrUpdate(PokemonTypeEntity(p.id, t.id))
+            }
+        }
 
         return pokemons.next
     }

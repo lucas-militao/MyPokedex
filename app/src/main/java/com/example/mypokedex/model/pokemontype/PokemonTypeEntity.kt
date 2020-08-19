@@ -7,27 +7,17 @@ import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.type.entity.TypeEntity
 
 @Entity(tableName = "pokemon_type",
-    primaryKeys = ["pokemon_id", "type_id"]
+    primaryKeys = ["pokemon_id", "type_id"],
+    foreignKeys = [
+        ForeignKey(entity = PokemonEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["pokemon_id"]
+        ),
+        ForeignKey(entity = TypeEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["type_id"])]
 )
 data class PokemonTypeEntity(
     @ColumnInfo(name = "pokemon_id") val pokemonId: Int,
     @ColumnInfo(name = "type_id") val typeId: Int
 )
-
-//@Entity(tableName = "pokemon_type",
-//    primaryKeys = ["pokemon_id", "type_id"],
-//
-//    foreignKeys = [ForeignKey(entity = PokemonEntity::class,
-//        parentColumns = arrayOf("id"),
-//        childColumns = arrayOf("pokemon_id"),
-//        onDelete = ForeignKey.CASCADE),
-//
-//        ForeignKey(entity = TypeEntity::class,
-//        parentColumns = arrayOf("id"),
-//        childColumns = arrayOf("type_id"),
-//        onDelete = ForeignKey.CASCADE)]
-//)
-//data class PokemonTypeEntity(
-//    @ColumnInfo(name = "pokemon_id") val pokemonId: Int,
-//    @ColumnInfo(name = "type_id") val typeId: Int
-//)

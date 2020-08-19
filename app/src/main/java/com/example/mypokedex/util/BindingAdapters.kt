@@ -20,6 +20,8 @@ import java.util.*
 @BindingAdapter("pokemonType")
 fun pokemonType(container: LinearLayout, types: List<Type>) {
 
+    container.removeAllViews()
+
     for (type in types) {
 
         val textView = TextView(container.context)
@@ -39,6 +41,10 @@ fun pokemonType(container: LinearLayout, types: List<Type>) {
                 "ghost" -> resources.getColor(R.color.type_ghost)
                 "poison" -> resources.getColor(R.color.type_poison)
                 "fairy" -> resources.getColor(R.color.type_fairy)
+                "ice" -> resources.getColor(R.color.type_ice)
+                "electric" -> resources.getColor(R.color.type_electric)
+                "psychic" -> resources.getColor(R.color.type_psychic)
+                "rock" -> resources.getColor(R.color.type_rock)
                 else -> resources.getColor(R.color.type_normal)
             }
 
@@ -63,6 +69,8 @@ fun pokemonType(container: LinearLayout, types: List<Type>) {
 @BindingAdapter("pokemonTypeEntity")
 fun pokemonTypeEntity(container: LinearLayout, types: List<TypeEntity>) {
 
+    container.removeAllViews()
+
     for (type in types) {
 
         val textView = TextView(container.context)
@@ -82,6 +90,10 @@ fun pokemonTypeEntity(container: LinearLayout, types: List<TypeEntity>) {
                 "ghost" -> resources.getColor(R.color.type_ghost)
                 "poison" -> resources.getColor(R.color.type_poison)
                 "fairy" -> resources.getColor(R.color.type_fairy)
+                "ice" -> resources.getColor(R.color.type_ice)
+                "electric" -> resources.getColor(R.color.type_electric)
+                "psychic" -> resources.getColor(R.color.type_psychic)
+                "rock" -> resources.getColor(R.color.type_rock)
                 else -> resources.getColor(R.color.type_normal)
             }
 

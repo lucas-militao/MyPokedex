@@ -12,7 +12,7 @@ interface PokemonDao {
         const val DATA_NOT_INSERTED = -1L
     }
 
-    @Query("SELECT * FROM pokemon ORDER BY id ASC")
+    @Query("SELECT * FROM pokemon")
     fun getAll(): LiveData<List<PokemonWithTypes>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

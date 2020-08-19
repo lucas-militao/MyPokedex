@@ -20,4 +20,8 @@
   <color name="type_bug">#A8B820</color>
   <color name="type_poison">#A040A0</color>
   <color name="type_fairy">#EE99AC</color>
+    <color name="type_ice">#98D8D8</color>
+  <color name="type_electric">#F8D030</color>
+  <color name="type_psychic">#F85888</color>
+  <color name="type_rock">#B8A038</color>
 </resources>
