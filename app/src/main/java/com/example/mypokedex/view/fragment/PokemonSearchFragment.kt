@@ -91,6 +91,10 @@ class PokemonSearchFragment: Fragment() {
             //TODO: Buscar forma de desativar filtro quando barra de pesquisa está aberta
         })
 
+        viewModel.pokemons.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) binding.pokemonList.visibility = View.VISIBLE
+        })
+
         viewModel.pokemonInfo.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 this.findNavController().navigate(PokemonSearchFragmentDirections.actionPokemonSearchFragmentToPokemonInfoFragment(it))
@@ -109,6 +113,7 @@ class PokemonSearchFragment: Fragment() {
         searchView.setOnQueryTextListener(object: OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!p0.isNullOrEmpty()) {
+                    viewModel.getPokemon(p0)
                     binding.pokemonList.visibility = View.GONE
                 }
                 return false

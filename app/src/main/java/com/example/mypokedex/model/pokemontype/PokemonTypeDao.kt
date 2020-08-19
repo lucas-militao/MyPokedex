@@ -8,7 +8,11 @@ interface PokemonTypeDao {
 
     @Transaction
     @Query("SELECT * FROM pokemon WHERE id = :id")
-    suspend fun searchPokemon(id: Int): PokemonWithTypes
+    suspend fun searchPokemonById(id: Int): PokemonWithTypes
+
+    @Transaction
+    @Query("SELECT * FROM pokemon WHERE nome = :name")
+    suspend fun searchPokemonByName(name: String): PokemonWithTypes
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(pokemonType: PokemonTypeEntity): Long

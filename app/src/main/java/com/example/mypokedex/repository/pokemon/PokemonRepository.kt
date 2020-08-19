@@ -3,7 +3,6 @@ package com.example.mypokedex.repository.pokemon
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.mypokedex.database.PokemonDatabase
-import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.pokemon.ui.Pokemon
 import com.example.mypokedex.model.pokemontype.PokemonTypeEntity
 import com.example.mypokedex.model.pokemontype.PokemonWithTypes
@@ -74,8 +73,8 @@ class PokemonRepository(context: Context) {
         typeLocal.insert(types)
     }
 
-    suspend fun getPokemon(id: Int): Pokemon {
-        val pokemonEntity = pokemonTypeLocal.searchPokemon(id)
+    suspend fun getPokemonById(id: Int): Pokemon {
+        val pokemonEntity = pokemonTypeLocal.searchPokemonById(id)
 
         val pokemon = pokemonEntity.toPokemon()
 
@@ -84,6 +83,10 @@ class PokemonRepository(context: Context) {
         }
 
         return pokemon
+    }
+
+    suspend fun getPokemonByName(name: String): PokemonWithTypes {
+        return pokemonTypeLocal.searchPokemonByName(name)
     }
 
     fun getPokemonsLiveData(): LiveData<List<PokemonWithTypes>> {
