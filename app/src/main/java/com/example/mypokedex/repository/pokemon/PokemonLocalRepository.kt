@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.mypokedex.database.PokemonDatabase
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.pokemontype.PokemonWithTypes
+import com.example.mypokedex.model.pokemontype.TypeWithPokemons
 
 class PokemonLocalRepository(context: Context) {
 
@@ -20,6 +21,10 @@ class PokemonLocalRepository(context: Context) {
 
     fun getAll(): LiveData<List<PokemonWithTypes>> {
         return pokemonDao.getAll()
+    }
+
+    suspend fun getPokemonsByType(name: String): TypeWithPokemons {
+        return pokemonDao.searchPokemonsByType(name)
     }
 
 }

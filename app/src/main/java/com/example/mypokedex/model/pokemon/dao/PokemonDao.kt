@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mypokedex.model.pokemon.entity.PokemonEntity
 import com.example.mypokedex.model.pokemontype.PokemonWithTypes
+import com.example.mypokedex.model.pokemontype.TypeWithPokemons
 
 @Dao
 interface PokemonDao {
@@ -11,6 +12,10 @@ interface PokemonDao {
     companion object {
         const val DATA_NOT_INSERTED = -1L
     }
+
+    @Transaction
+    @Query("SELECT * FROM type WHERE nome = :typeName")
+    suspend fun searchPokemonsByType(typeName: String): TypeWithPokemons
 
     @Query("SELECT * FROM pokemon")
     fun getAll(): LiveData<List<PokemonWithTypes>>

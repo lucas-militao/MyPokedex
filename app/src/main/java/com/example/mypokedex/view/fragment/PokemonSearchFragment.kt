@@ -5,6 +5,7 @@ import android.transition.TransitionManager
 import android.view.*
 import android.widget.SearchView
 import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,6 +22,7 @@ import com.google.android.material.chip.Chip
 class PokemonSearchFragment: Fragment() {
 
     private lateinit var binding: PokemonSearchFragmentBinding
+    private var searchViewOpen = false
     private lateinit var viewModel: PokemonViewModel
 
     override fun onCreateView (
@@ -40,10 +42,12 @@ class PokemonSearchFragment: Fragment() {
     }
 
     private fun setupView() {
+        setupToolbar()
         binding.viewModel = viewModel
         binding.pokemonList.adapter = PokemonListAdapter(onClick = {
             viewModel.getPokemonInfo(it.pokemon.id)
         })
+
         setHasOptionsMenu(true)
     }
 
@@ -60,6 +64,9 @@ class PokemonSearchFragment: Fragment() {
                     chip.tag = type.name
                     
                     chip.setOnCheckedChangeListener { button, isChecked ->
+                        if (isChecked) {
+
+                        }
                     }
                     
                     chip
@@ -84,15 +91,22 @@ class PokemonSearchFragment: Fragment() {
         })
 
         viewModel.pokemonsList().observe(viewLifecycleOwner, Observer {
-            viewModel.updateList(it)
+            if (!searchViewOpen) {
+                viewModel.updateList(it)
+            }
         })
 
         viewModel.searchViewOpen.observe(viewLifecycleOwner, Observer {
-            //TODO: Buscar forma de desativar filtro quando barra de pesquisa está aberta
+            searchViewOpen = it
         })
 
         viewModel.pokemons.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) binding.pokemonList.visibility = View.VISIBLE
+            if (it.isNotEmpty()) {
+                binding.pokemonList.visibility = View.VISIBLE
+                viewModel.cancelProgress()
+            } else {
+                viewModel.showProgress()
+            }
         })
 
         viewModel.pokemonInfo.observe(viewLifecycleOwner, Observer {
@@ -100,6 +114,10 @@ class PokemonSearchFragment: Fragment() {
                 this.findNavController().navigate(PokemonSearchFragmentDirections.actionPokemonSearchFragmentToPokemonInfoFragment(it))
                 viewModel.pokemonInfoDelivered()
             }
+        })
+
+        viewModel.progressOn.observe(viewLifecycleOwner, Observer {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         })
 
     }
@@ -113,7 +131,7 @@ class PokemonSearchFragment: Fragment() {
         searchView.setOnQueryTextListener(object: OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!p0.isNullOrEmpty()) {
-                    viewModel.getPokemon(p0)
+                    viewModel.searchPokemonBuName(p0)
                     binding.pokemonList.visibility = View.GONE
                 }
                 return false
@@ -144,5 +162,11 @@ class PokemonSearchFragment: Fragment() {
 
         return NavigationUI.onNavDestinationSelected(item, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
+    }
+
+    private fun setupToolbar() {
+        with((activity as AppCompatActivity).supportActionBar) {
+            this?.setTitle("My Pokedex")
+        }
     }
 }

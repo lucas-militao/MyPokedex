@@ -6,6 +6,7 @@ import com.example.mypokedex.database.PokemonDatabase
 import com.example.mypokedex.model.pokemon.ui.Pokemon
 import com.example.mypokedex.model.pokemontype.PokemonTypeEntity
 import com.example.mypokedex.model.pokemontype.PokemonWithTypes
+import com.example.mypokedex.model.pokemontype.TypeWithPokemons
 import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.repository.type.TypeLocalRepository
 import com.example.mypokedex.repository.type.TypeRemoteRepository
@@ -83,6 +84,10 @@ class PokemonRepository(context: Context) {
         }
 
         return pokemon
+    }
+
+    suspend fun getPokemonsByType(name: String): TypeWithPokemons {
+        return pokemonLocal.getPokemonsByType(name)
     }
 
     suspend fun getPokemonByName(name: String): PokemonWithTypes {

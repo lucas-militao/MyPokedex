@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mypokedex.model.pokemon.ui.Pokemon
 import com.example.mypokedex.model.pokemontype.PokemonWithTypes
+import com.example.mypokedex.model.pokemontype.TypeWithPokemons
 import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.repository.pokemon.PokemonRepository
 import kotlinx.coroutines.Job
@@ -41,6 +42,14 @@ class PokemonViewModel(
     val searchViewOpen: LiveData<Boolean>
         get() = _searchViewOpen
 
+    private val _progressOn = MutableLiveData<Boolean>()
+    val progressOn: LiveData<Boolean>
+        get() = _progressOn
+
+    private val _filterOn = MutableLiveData<Boolean>()
+    val filterOn: LiveData<Boolean>
+        get() = _filterOn
+
 
     init {
         _searchViewOpen.value = false
@@ -69,7 +78,7 @@ class PokemonViewModel(
         }
     }
 
-    fun getPokemon(name: String) {
+    fun searchPokemonBuName(name: String) {
         viewModelScope.launch {
             try {
                 val pokemon = repository.getPokemonByName(name)
@@ -78,6 +87,12 @@ class PokemonViewModel(
                 Log.e("ERROR IN SEARCHING", "getPokemon: Not found")
             }
 
+        }
+    }
+
+    fun searchPokemonsByType(type: String)  {
+        viewModelScope.launch {
+            //TODO
         }
     }
 
@@ -91,6 +106,22 @@ class PokemonViewModel(
 
     fun updateTypes(list: List<TypeEntity>) {
         _pokemonTypes.value = list
+    }
+
+    fun cancelProgress() {
+        _progressOn.value = false
+    }
+
+    fun showProgress() {
+        _progressOn.value = true
+    }
+
+    fun turnOnFilter() {
+        _filterOn.value = true
+    }
+
+    fun turnOffFilter() {
+        _filterOn.value = false
     }
 
     override fun onCleared() {

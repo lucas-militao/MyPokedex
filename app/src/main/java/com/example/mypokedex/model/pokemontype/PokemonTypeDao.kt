@@ -1,5 +1,6 @@
 package com.example.mypokedex.model.pokemontype
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mypokedex.model.type.dao.TypeDao
 
