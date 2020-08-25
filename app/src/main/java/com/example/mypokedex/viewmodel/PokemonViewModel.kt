@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mypokedex.model.pokemon.ui.Pokemon
 import com.example.mypokedex.model.pokemontype.PokemonWithTypes
-import com.example.mypokedex.model.pokemontype.TypeWithPokemons
 import com.example.mypokedex.model.type.entity.TypeEntity
 import com.example.mypokedex.repository.pokemon.PokemonRepository
 import kotlinx.coroutines.Job
@@ -23,8 +22,8 @@ class PokemonViewModel(
 
     private val viewModelJob = Job()
 
-    private val _pokemons = MutableLiveData<List<PokemonWithTypes>>()
-    val pokemons: LiveData<List<PokemonWithTypes>> = _pokemons
+    private val _pokemons = MutableLiveData<List<Pokemon>>()
+    val pokemons: LiveData<List<Pokemon>> = _pokemons
 
     private val _pokemonInfo = MutableLiveData<Pokemon>()
     val pokemonInfo: LiveData<Pokemon>
@@ -53,6 +52,7 @@ class PokemonViewModel(
 
     init {
         _searchViewOpen.value = false
+        _filterOn.value = false
     }
 
     fun pokemonTypes(): LiveData<List<TypeEntity>> {
@@ -90,9 +90,17 @@ class PokemonViewModel(
         }
     }
 
-    fun searchPokemonsByType(type: String)  {
+    fun searchPokemonsByType(type: String) {
         viewModelScope.launch {
-            //TODO
+            val results = repository.getPokemonsByType(type)
+            val pokemons = arrayListOf<Pokemon>()
+
+            for (result in results.pokemons) {
+                val pokemon = repository.getPokemonByName(result.name)
+                pokemons.add(pokemon)
+            }
+
+            _pokemons.value = pokemons
         }
     }
 
@@ -100,7 +108,7 @@ class PokemonViewModel(
         _pokemonInfo.value = null
     }
 
-    fun updateList(list: List<PokemonWithTypes>) {
+    fun updateList(list: List<Pokemon>) {
         _pokemons.value = list
     }
 

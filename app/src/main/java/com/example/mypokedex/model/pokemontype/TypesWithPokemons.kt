@@ -20,5 +20,5 @@ data class TypeWithPokemons(
             entityColumn = "pokemon_id"
         )
     )
-    val pokemonEntity: List<PokemonEntity>
+    val pokemons: List<PokemonEntity>
 )

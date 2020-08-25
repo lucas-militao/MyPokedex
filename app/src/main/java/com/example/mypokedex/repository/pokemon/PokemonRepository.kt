@@ -90,11 +90,20 @@ class PokemonRepository(context: Context) {
         return pokemonLocal.getPokemonsByType(name)
     }
 
-    suspend fun getPokemonByName(name: String): PokemonWithTypes {
-        return pokemonTypeLocal.searchPokemonByName(name)
+    suspend fun getPokemonByName(name: String): Pokemon {
+        val result = pokemonTypeLocal.searchPokemonByName(name)
+
+        val pokemon = result.pokemon.toPokemon()
+        for (type in result.type) {
+            pokemon.types.add(type.toType())
+        }
+
+        return pokemon
     }
 
     fun getPokemonsLiveData(): LiveData<List<PokemonWithTypes>> {
+
+
         return pokemonLocal.getAll()
     }
 

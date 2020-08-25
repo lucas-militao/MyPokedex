@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mypokedex.R
-import com.example.mypokedex.model.pokemon.entity.PokemonEntity
-import com.example.mypokedex.model.pokemontype.PokemonWithTypes
-import com.example.mypokedex.model.type.entity.TypeEntity
+import com.example.mypokedex.model.pokemon.ui.Pokemon
 import com.example.mypokedex.model.type.ui.Type
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import java.util.*
@@ -67,7 +65,7 @@ fun pokemonType(container: LinearLayout, types: List<Type>) {
 }
 
 @BindingAdapter("pokemonTypeEntity")
-fun pokemonTypeEntity(container: LinearLayout, types: List<TypeEntity>) {
+fun pokemonTypeEntity(container: LinearLayout, types: List<Type>) {
 
     container.removeAllViews()
 
@@ -143,7 +141,7 @@ fun pokemonWeight(textView: TextView, weight: Int) {
 }
 
 @BindingAdapter("pokemonList")
-fun pokemonList(recyclerView: RecyclerView, data: List<PokemonWithTypes>?) {
+fun pokemonList(recyclerView: RecyclerView, data: List<Pokemon>?) {
     val adapter = recyclerView.adapter as PokemonListAdapter
     adapter.submitList(data)
 }

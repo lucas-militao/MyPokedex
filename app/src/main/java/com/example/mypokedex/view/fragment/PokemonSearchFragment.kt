@@ -14,7 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.mypokedex.R
 import com.example.mypokedex.databinding.PokemonSearchFragmentBinding
+import com.example.mypokedex.model.pokemon.ui.Pokemon
 import com.example.mypokedex.model.type.entity.TypeEntity
+import com.example.mypokedex.util.toPokemon
+import com.example.mypokedex.util.toType
 import com.example.mypokedex.view.adapter.PokemonListAdapter
 import com.example.mypokedex.viewmodel.PokemonViewModel
 import com.google.android.material.chip.Chip
@@ -23,6 +26,7 @@ class PokemonSearchFragment: Fragment() {
 
     private lateinit var binding: PokemonSearchFragmentBinding
     private var searchViewOpen = false
+    private var filterOn = false
     private lateinit var viewModel: PokemonViewModel
 
     override fun onCreateView (
@@ -45,7 +49,7 @@ class PokemonSearchFragment: Fragment() {
         setupToolbar()
         binding.viewModel = viewModel
         binding.pokemonList.adapter = PokemonListAdapter(onClick = {
-            viewModel.getPokemonInfo(it.pokemon.id)
+            viewModel.getPokemonInfo(it.id)
         })
 
         setHasOptionsMenu(true)
@@ -65,7 +69,8 @@ class PokemonSearchFragment: Fragment() {
                     
                     chip.setOnCheckedChangeListener { button, isChecked ->
                         if (isChecked) {
-
+                            viewModel.searchPokemonsByType(button.tag.toString())
+                            viewModel.turnOnFilter()
                         }
                     }
                     
@@ -74,6 +79,7 @@ class PokemonSearchFragment: Fragment() {
 
                 chipGroup.setOnCheckedChangeListener { group, checkedId ->
                     if (group.checkedChipId == View.NO_ID) {
+                        viewModel.turnOffFilter()
                     }
 
                 }
@@ -90,9 +96,20 @@ class PokemonSearchFragment: Fragment() {
             viewModel.updateTypes(it)
         })
 
+        viewModel.filterOn.observe(viewLifecycleOwner, Observer {
+            filterOn = it
+        })
+
         viewModel.pokemonsList().observe(viewLifecycleOwner, Observer {
-            if (!searchViewOpen) {
-                viewModel.updateList(it)
+            if (!searchViewOpen && !filterOn) {
+                val pokemons = arrayListOf<Pokemon>()
+                for (result in it) {
+                    pokemons.add(result.pokemon.toPokemon())
+                    for (type in result.type) {
+                        pokemons[pokemons.size - 1].types.add(type.toType())
+                    }
+                }
+                viewModel.updateList(pokemons)
             }
         })
 

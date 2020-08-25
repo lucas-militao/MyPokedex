@@ -6,7 +6,7 @@
     <data>
         <variable
             name="pokemon"
-            type="com.example.mypokedex.model.pokemontype.PokemonWithTypes" />
+            type="com.example.mypokedex.model.pokemon.ui.Pokemon" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/pikachu_img"
-            app:pokemonImage="@{pokemon.pokemon.sprite}"/>
+            app:pokemonImage="@{pokemon.sprite}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/pokemonName"
@@ -38,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pokemonIcon"
             tools:text="Pikachu"
-            app:pokemonName="@{pokemon.pokemon.name}"/>
+            app:pokemonName="@{pokemon.name}"/>
 
         <LinearLayout
             android:id="@+id/typeContainer"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pokemonName"
-            app:pokemonTypeEntity="@{pokemon.type}" />
+            app:pokemonTypeEntity="@{pokemon.types}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
